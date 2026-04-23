@@ -10,3 +10,6 @@
 [submodule "subprojects/engine/rlImGui"]
 	path = subprojects/engine/rlImGui
 	url = https://github.com/raylib-extras/rlImGui.git
+[submodule "subprojects/raylib-cpp"]
+	path = subprojects/raylib-cpp
+	url = https://github.com/RobLoach/raylib-cpp.git
