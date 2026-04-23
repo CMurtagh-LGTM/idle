@@ -1,3 +1,5 @@
 subprojects/raylib
 subprojects/imgui
+subprojects/raylib-cpp
 subprojects/engine/imgui
+subprojects/engine/rlImGui

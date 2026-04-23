@@ -1,1 +1,1 @@
-srcs = files()
+srcs = files('context.cpp')
