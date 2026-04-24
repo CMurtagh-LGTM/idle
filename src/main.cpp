@@ -4,6 +4,12 @@ int main() {
 
     engine::Context context;
 
-    context.start();
+    auto e = context.start();
+
+    if (e) {
+        return 0;
+    } else {
+        return 1;
+    }
 
 }

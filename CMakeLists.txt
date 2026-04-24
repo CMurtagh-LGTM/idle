@@ -8,6 +8,7 @@ project(
 
 # Make sure all binaries are placed into the same build folder.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_COLOR_DIAGNOSTICS ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 

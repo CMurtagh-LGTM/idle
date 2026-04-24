@@ -2,14 +2,20 @@
 
 #include "engine/sprite.hpp"
 
+#include <expected>
 #include <vector>
 
 namespace engine {
 
 class Context {
 public:
+  enum class ContextError {
+    MakeAppError,
+  };
+
   Context();
-  void start();
+  std::expected<void, ContextError> start();
+
 private:
   std::vector<internal::Sprite> sprites;
 };
