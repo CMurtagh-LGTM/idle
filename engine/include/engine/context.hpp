@@ -1,23 +1,40 @@
 #pragma once
 
-#include "engine/sprite.hpp"
-
-#include <expected>
-#include <vector>
+#include "internal/sprite_manager.hpp"
 
 namespace engine {
 
+namespace internal {
+class ContextBroker;
+}
+
 class Context {
 public:
-  enum class ContextError {
-    MakeAppError,
-  };
+  ~Context();
+  Context(const Context&) = delete;
+  Context(Context&&) = delete;
+  Context& operator=(const Context&) = delete;
+  Context& operator=(Context&&) = delete;
 
-  Context();
-  std::expected<void, ContextError> start();
+  void start();
+
+  internal::SpriteManager& get_sprite_manager();
 
 private:
-  std::vector<internal::Sprite> sprites;
+  Context();
+
+  internal::SpriteManager sprite_manager;
+
+  friend internal::ContextBroker;
 };
+
+void start();
+
+namespace internal {
+class ContextBroker {
+  public:
+    static Context& context();
+};
+} // namespace internal
 
 } // namespace engine

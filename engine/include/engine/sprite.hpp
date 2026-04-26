@@ -1,24 +1,15 @@
 #pragma once
 
+#include <cute.h>
+
 namespace engine {
-namespace internal {
 
 class Sprite {
 public:
-  Sprite();
+  Sprite(const char* path);
 
 private:
-//   raylib::Texture m_texture;
-};
-
-} // namespace internal
-
-class Sprite {
-public:
-  Sprite();
-
-private:
-  internal::Sprite *m_ptr;
+  CF_Sprite *ptr;
 };
 
 } // namespace engine

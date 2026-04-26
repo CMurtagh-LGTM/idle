@@ -16,19 +16,33 @@ set(CF_FRAMEWORK_BUILD_SAMPLES OFF)
 set(CF_FRAMEWORK_BUILD_TESTS OFF)
 
 include(FetchContent)
+
 FetchContent_Declare(
 	cute
 	GIT_REPOSITORY https://github.com/RandyGaul/cute_framework
 	GIT_TAG master
-	GIT_SHALLOW
+	GIT_SHALLOW ON
 )
-FetchContent_MakeAvailable(cute)
+
+FetchContent_Declare(GSL
+    GIT_REPOSITORY "https://github.com/microsoft/GSL"
+    GIT_TAG "v4.2.1"
+    GIT_SHALLOW ON
+)
+
+FetchContent_MakeAvailable(cute GSL)
 
 add_library(
 	${PROJECT_NAME}
 	STATIC
 	src/context.cpp
+	src/sprite.cpp
+	src/utils.cpp
+	src/internal/sprite_manager.cpp
 )
+target_compile_definitions(${PROJECT_NAME} PUBLIC LOG)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
-target_link_libraries(${PROJECT_NAME} cute)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC cute)
+target_link_libraries(${PROJECT_NAME} PUBLIC Microsoft.GSL::GSL)

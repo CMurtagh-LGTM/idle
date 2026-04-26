@@ -1,15 +1,11 @@
 #include "engine/context.hpp"
+#include "engine/sprite.hpp"
 
 int main() {
 
-    engine::Context context;
+    engine::Sprite sprite{"content/person.png"};
 
-    auto e = context.start();
+    engine::start();
 
-    if (e) {
-        return 0;
-    } else {
-        return 1;
-    }
-
+    return 0;
 }
