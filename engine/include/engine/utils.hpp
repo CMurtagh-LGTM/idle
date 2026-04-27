@@ -5,7 +5,7 @@
 
 namespace engine::utils {
 
-template <typename ...Args>
+template <typename... Args>
 void log([[maybe_unused]] std::format_string<Args...> format_string, [[maybe_unused]] Args&&... args) {
 #ifdef LOG
   std::println(format_string, std::forward<Args>(args)...);
@@ -14,4 +14,4 @@ void log([[maybe_unused]] std::format_string<Args...> format_string, [[maybe_unu
 
 void check_cf_result(CF_Result result);
 
-}
+} // namespace engine::utils

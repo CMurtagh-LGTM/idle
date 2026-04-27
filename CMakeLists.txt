@@ -20,8 +20,8 @@ FetchContent_MakeAvailable(engine)
 
 add_executable(
     ${PROJECT_NAME}
-    src/main.cpp
 )
+target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
@@ -29,16 +29,18 @@ target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURR
 target_link_libraries(${PROJECT_NAME} engine)
 
 find_program(CLANG_FORMAT_EXE clang-format)
-get_target_property(FORMAT_SOURCES ${PROJECT_NAME} SOURCES)
-get_target_property(FORMAT_ENGINE_SOURCES engine SOURCES)
-list(TRANSFORM FORMAT_ENGINE_SOURCES PREPEND engine/)
+get_target_property(format_sources ${PROJECT_NAME} SOURCES)
+# get_target_property(format_interface_sources ${PROJECT_NAME} INTERFACE_SOURCES)
+get_target_property(format_engine_sources engine SOURCES)
+get_target_property(format_engine_interface_sources engine INTERFACE_SOURCES)
+list(TRANSFORM format_engine_sources PREPEND engine/)
 add_custom_target(check-format
     COMMENT "Checking files with clang-format..." 
-    COMMAND ${CLANG_FORMAT_EXE} --dry-run ${FORMAT_SOURCES} ${FORMAT_ENGINE_SOURCES}
+    COMMAND ${CLANG_FORMAT_EXE} --dry-run ${format_sources} ${format_interface_sources} ${format_engine_sources} ${format_engine_interface_sources}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 ) 
 add_custom_target(format
     COMMENT "Formatting files with clang-format..." 
-    COMMAND ${CLANG_FORMAT_EXE} -i ${FORMAT_SOURCES} ${FORMAT_ENGINE_SOURCES}
+    COMMAND ${CLANG_FORMAT_EXE} -i ${format_sources} ${format_interface_sources} ${format_engine_sources} ${format_engine_interface_sources}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 ) 

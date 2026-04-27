@@ -12,14 +12,25 @@ if(CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 	set(EMSCRIPTEN TRUE)
 endif()
 
-add_library(
-	${PROJECT_NAME}
-	STATIC
+add_library(${PROJECT_NAME} STATIC)
+target_sources(${PROJECT_NAME}
+	PRIVATE
 	src/engine.cpp
 	src/context.cpp
 	src/sprite.cpp
 	src/utils.cpp
 	src/sprite_manager.cpp
+)
+target_sources(${PROJECT_NAME}
+	INTERFACE
+	include/engine/engine.hpp
+	include/engine/sprite.hpp
+	include/engine/utils.hpp
+	
+	include/internal/arena.hpp
+	include/internal/config.hpp
+	include/internal/context.hpp
+	include/internal/sprite_manager.hpp
 )
 target_compile_definitions(${PROJECT_NAME} PUBLIC LOG)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)

@@ -18,6 +18,7 @@ public:
   [[nodiscard]] int get_height() const;
   void set_scale(CF_V2 scale);
   void set_offset(CF_V2 offset);
+
 private:
   gsl::owner<CF_Sprite*> ptr;
 };

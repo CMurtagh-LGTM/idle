@@ -11,16 +11,16 @@ class ContextBroker;
 class Context {
 public:
   ~Context();
-  Context(const Context &) = delete;
-  Context(Context &&) = delete;
-  Context &operator=(const Context &) = delete;
-  Context &operator=(Context &&) = delete;
+  Context(const Context&) = delete;
+  Context(Context&&) = delete;
+  Context& operator=(const Context&) = delete;
+  Context& operator=(Context&&) = delete;
 
   void start();
-  sigc::connection connect_process(const sigc::slot<void(float)> &slot);
-  sigc::connection connect_process(sigc::slot<void(float)> &&slot);
+  sigc::connection connect_process(const sigc::slot<void(float)>& slot);
+  sigc::connection connect_process(sigc::slot<void(float)>&& slot);
 
-  internal::SpriteManager &get_sprite_manager();
+  internal::SpriteManager& get_sprite_manager();
 
 private:
   Context();
@@ -33,7 +33,7 @@ private:
 
 class ContextBroker {
 public:
-  static Context &context();
+  static Context& context();
 };
 
 } // namespace engine::internal
