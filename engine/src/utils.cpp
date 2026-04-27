@@ -1,7 +1,7 @@
 #include "engine/utils.hpp"
 
-#include <cute.h>
 #include <cassert>
+#include <cute.h>
 #include <print>
 
 namespace engine::utils {
@@ -13,4 +13,4 @@ void check_cf_result(CF_Result result) {
   }
 }
 
-}
+} // namespace engine::utils

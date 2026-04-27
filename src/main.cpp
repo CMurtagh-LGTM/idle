@@ -1,19 +1,19 @@
-#include "engine/context.hpp"
+#include "engine/engine.h"
 #include "engine/sprite.hpp"
 
 #include <cute.h>
 
 int main() {
 
-    engine::Sprite sprite{"content/person.png"};
-    float x = 0;
+  engine::Sprite sprite{"content/person.png"};
+  float x = 0;
 
-    engine::internal::ContextBroker::context().process.connect([&](float dt){
-        sprite.set_offset(V2(x, 0));
-        x += dt * 10;
-    });
+  engine::connect_process([&](float delta_time) {
+    sprite.set_offset(V2(x, 0));
+    x += delta_time * 10;
+  });
 
-    engine::start();
+  engine::start();
 
-    return 0;
+  return 0;
 }

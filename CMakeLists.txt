@@ -27,3 +27,18 @@ target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 
 target_link_libraries(${PROJECT_NAME} engine)
+
+find_program(CLANG_FORMAT_EXE clang-format)
+get_target_property(FORMAT_SOURCES ${PROJECT_NAME} SOURCES)
+get_target_property(FORMAT_ENGINE_SOURCES engine SOURCES)
+list(TRANSFORM FORMAT_ENGINE_SOURCES PREPEND engine/)
+add_custom_target(check-format
+    COMMENT "Checking files with clang-format..." 
+    COMMAND ${CLANG_FORMAT_EXE} --dry-run ${FORMAT_SOURCES} ${FORMAT_ENGINE_SOURCES}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+) 
+add_custom_target(format
+    COMMENT "Formatting files with clang-format..." 
+    COMMAND ${CLANG_FORMAT_EXE} -i ${FORMAT_SOURCES} ${FORMAT_ENGINE_SOURCES}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+) 

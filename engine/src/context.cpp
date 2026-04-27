@@ -1,11 +1,11 @@
-#include "engine/context.hpp"
+#include "internal/context.hpp"
 
-#include "proggy.h"
 #include "engine/utils.hpp"
+#include "proggy.h"
 
 #include <cute.h>
 
-namespace engine {
+namespace engine::internal {
 
 namespace {
 void mount_content_folder() {
@@ -20,22 +20,16 @@ void mount_content_folder() {
 Context::Context() {
   constexpr int width = 640;
   constexpr int height = 480;
-  CF_Result result =
-      Cute::make_app("Fancy Window Title", 0, 0, 0, width, height,
-                     CF_APP_OPTIONS_WINDOW_POS_CENTERED_BIT |
-                         CF_APP_OPTIONS_FILE_SYSTEM_DONT_DEFAULT_MOUNT_BIT,
-                     "idle");
+  CF_Result result = Cute::make_app(
+      "Fancy Window Title", 0, 0, 0, width, height,
+      CF_APP_OPTIONS_WINDOW_POS_CENTERED_BIT | CF_APP_OPTIONS_FILE_SYSTEM_DONT_DEFAULT_MOUNT_BIT, "idle");
   utils::check_cf_result(result);
 
   mount_content_folder();
-  Cute::make_font_from_memory(static_cast<void *>(proggy_data), proggy_sz,
-                              "ProggyClean");
-
+  Cute::make_font_from_memory(static_cast<void*>(proggy_data), proggy_sz, "ProggyClean");
 }
 
-Context::~Context() {
-  Cute::destroy_app();
-}
+Context::~Context() { Cute::destroy_app(); }
 
 void Context::start() {
   while (Cute::app_is_running()) {
@@ -52,17 +46,14 @@ void Context::start() {
   }
 }
 
-internal::SpriteManager& Context::get_sprite_manager() {
-  return sprite_manager;
+sigc::connection Context::connect_process(const sigc::slot<void(float)>& slot) { return process.connect(slot); }
+sigc::connection Context::connect_process(sigc::slot<void(float)>&& slot) { return process.connect(std::move(slot)); }
+
+SpriteManager& Context::get_sprite_manager() { return sprite_manager; }
+
+Context& ContextBroker::context() {
+  static Context context{};
+  return context;
 }
 
-void start() {
-  return internal::ContextBroker::context().start();
-}
-
-Context& internal::ContextBroker::context() {
-    static Context context{};
-    return context;
-}
-
-} // namespace engine
+} // namespace engine::internal

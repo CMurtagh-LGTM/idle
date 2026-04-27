@@ -15,10 +15,11 @@ endif()
 add_library(
 	${PROJECT_NAME}
 	STATIC
+	src/engine.cpp
 	src/context.cpp
 	src/sprite.cpp
 	src/utils.cpp
-	src/internal/sprite_manager.cpp
+	src/sprite_manager.cpp
 )
 target_compile_definitions(${PROJECT_NAME} PUBLIC LOG)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "internal/arena.hpp"
-#include "engine/config.hpp"
+#include "internal/config.hpp"
 
 #include <cute.h>
 
@@ -9,12 +9,13 @@ namespace engine::internal {
 
 class SpriteManager {
 public:
-    CF_Sprite* new_sprite(const char* path);
+    gsl::owner<CF_Sprite*> new_sprite(const char* path);
+    void free_sprite(gsl::owner<CF_Sprite*> ptr);
 
     void draw_sprites();
 
 private:
-    internal::Arena<CF_Sprite> sprites = {SPRITE_COUNT};
+    Arena<CF_Sprite, SPRITE_COUNT> sprites;
 };
 
 }

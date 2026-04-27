@@ -1,4 +1,6 @@
-Standard: Cpp26
+Standard: c++20
 TabWidth: 4
 UseTab: Never
 ColumnLimit: 120
+DerivePointerAlignment: false
+PointerAlignment: Left
