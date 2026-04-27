@@ -12,6 +12,19 @@ if(CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 	set(EMSCRIPTEN TRUE)
 endif()
 
+add_library(
+	${PROJECT_NAME}
+	STATIC
+	src/context.cpp
+	src/sprite.cpp
+	src/utils.cpp
+	src/internal/sprite_manager.cpp
+)
+target_compile_definitions(${PROJECT_NAME} PUBLIC LOG)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
+# TODO check if include/internal can be made private by using forward declares
+target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+
 set(CF_FRAMEWORK_BUILD_SAMPLES OFF)
 set(CF_FRAMEWORK_BUILD_TESTS OFF)
 
@@ -32,17 +45,39 @@ FetchContent_Declare(GSL
 
 FetchContent_MakeAvailable(cute GSL)
 
-add_library(
-	${PROJECT_NAME}
-	STATIC
-	src/context.cpp
-	src/sprite.cpp
-	src/utils.cpp
-	src/internal/sprite_manager.cpp
+include(ExternalProject)
+find_program(MESON meson REQUIRED)
+ExternalProject_Add(
+	sigc++
+	GIT_REPOSITORY https://github.com/libsigcplusplus/libsigcplusplus.git
+	GIT_TAG "3.8.0"
+	GIT_SHALLOW ON
+
+	SOURCE_DIR     ${CMAKE_BINARY_DIR}/_deps/sigc++-build
+	BINARY_DIR     ${CMAKE_BINARY_DIR}/_deps/sigc++-src
+	INSTALL_DIR    ${CMAKE_BINARY_DIR}/_deps/sigc++-build
+
+	CONFIGURE_COMMAND ${MESON} setup <BINARY_DIR> <SOURCE_DIR> 
+                      --default-library=static 
+                      -Dbuildtype=release 
+                      --prefix <INSTALL_DIR>
+		      -Dmaintainer-mode=false
+		      -Dbuild-deprecated-api=false
+		      -Dbuild-examples=false
+		      -Dbuild-tests=false
+	BUILD_COMMAND ${MESON} compile -C <BINARY_DIR>
+	INSTALL_COMMAND ${MESON} install -C <BINARY_DIR>
+
+	BUILD_BYPRODUCTS <INSTALL_DIR>/lib/libsigc-3.0.a
 )
-target_compile_definitions(${PROJECT_NAME} PUBLIC LOG)
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
-target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+add_library(libsigc++ STATIC IMPORTED)
+make_directory(${CMAKE_BINARY_DIR}/_deps/sigc++-build/include/sigc++-3.0)
+set_target_properties(libsigc++ PROPERTIES
+	IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/_deps/sigc++-build/lib/libsigc-3.0.a
+	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_BINARY_DIR}/_deps/sigc++-build/include/sigc++-3.0;${CMAKE_BINARY_DIR}/_deps/sigc++-build/lib/sigc++-3.0/include"
+)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC cute)
+target_link_libraries(${PROJECT_NAME} PUBLIC libsigc++)
+# TODO check if this can be made private
 target_link_libraries(${PROJECT_NAME} PUBLIC Microsoft.GSL::GSL)

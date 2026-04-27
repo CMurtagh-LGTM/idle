@@ -39,6 +39,8 @@ Context::~Context() {
 
 void Context::start() {
   while (Cute::app_is_running()) {
+    process.emit(CF_DELTA_TIME);
+
     Cute::app_update();
     // Cute::push_font("ProggyClean");
     // Cute::draw_text("hello", V2(-25, -50));
@@ -46,7 +48,7 @@ void Context::start() {
 
     sprite_manager.draw_sprites();
 
-    Cute::app_draw_onto_screen();
+    Cute::app_draw_onto_screen(true);
   }
 }
 

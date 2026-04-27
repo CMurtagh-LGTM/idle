@@ -2,6 +2,8 @@
 
 #include "internal/sprite_manager.hpp"
 
+#include <sigc++/sigc++.h>
+
 namespace engine {
 
 namespace internal {
@@ -19,6 +21,8 @@ public:
   void start();
 
   internal::SpriteManager& get_sprite_manager();
+
+  sigc::signal<void(float)> process;
 
 private:
   Context();
