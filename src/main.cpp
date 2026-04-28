@@ -1,4 +1,4 @@
-#include "engine/engine.h"
+#include "engine/engine.hpp"
 #include "engine/sprite.hpp"
 
 #include <cute.h>
