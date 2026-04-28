@@ -65,9 +65,11 @@ ExternalProject_Add(
 	GIT_TAG "3.8.0"
 	GIT_SHALLOW ON
 
-	SOURCE_DIR     ${CMAKE_BINARY_DIR}/_deps/sigc++-build
-	BINARY_DIR     ${CMAKE_BINARY_DIR}/_deps/sigc++-src
-	INSTALL_DIR    ${CMAKE_BINARY_DIR}/_deps/sigc++-build
+	SOURCE_DIR     ${CMAKE_BINARY_DIR}/_deps/sigc++-src
+	BINARY_DIR     ${CMAKE_BINARY_DIR}/_deps/sigc++-build
+	INSTALL_DIR    ${CMAKE_BINARY_DIR}/_deps/sigc++-install
+
+	UPDATE_COMMAND ""
 
 	CONFIGURE_COMMAND ${MESON} setup <BINARY_DIR> <SOURCE_DIR> 
                       --default-library=static 
@@ -77,19 +79,26 @@ ExternalProject_Add(
 		      -Dbuild-deprecated-api=false
 		      -Dbuild-examples=false
 		      -Dbuild-tests=false
-	BUILD_COMMAND ${MESON} compile -C <BINARY_DIR>
-	INSTALL_COMMAND ${MESON} install -C <BINARY_DIR>
+	CONFIGURE_HANDLED_BY_BUILD ON
 
-	BUILD_BYPRODUCTS <INSTALL_DIR>/lib/libsigc-3.0.a
+	BUILD_COMMAND ${MESON} compile -C <BINARY_DIR>
+	BUILD_BYPRODUCTS <BINARY_DIR>/sigc++/libsigc-3.0.a
+
+	INSTALL_COMMAND ${MESON} install -C <BINARY_DIR>
+	INSTALL_BYPRODUCTS <INSTALL_DIR>/lib/libsigc-3.0.a <INSTALL_DIR>/include/sigc++-3.0
 )
 add_library(libsigc++ STATIC IMPORTED)
-make_directory(${CMAKE_BINARY_DIR}/_deps/sigc++-build/include/sigc++-3.0)
+make_directory(${CMAKE_BINARY_DIR}/_deps/sigc++-install/include/sigc++-3.0)
+make_directory(${CMAKE_BINARY_DIR}/_deps/sigc++-install/lib/sigc++-3.0/include)
 set_target_properties(libsigc++ PROPERTIES
-	IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/_deps/sigc++-build/lib/libsigc-3.0.a
-	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_BINARY_DIR}/_deps/sigc++-build/include/sigc++-3.0;${CMAKE_BINARY_DIR}/_deps/sigc++-build/lib/sigc++-3.0/include"
+	IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/_deps/sigc++-install/lib/libsigc-3.0.a
+	INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_BINARY_DIR}/_deps/sigc++-install/include/sigc++-3.0;${CMAKE_BINARY_DIR}/_deps/sigc++-install/lib/sigc++-3.0/include"
 )
 
+
 target_link_libraries(${PROJECT_NAME} PUBLIC cute)
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC $<TARGET_PROPERTY:cute,INTERFACE_INCLUDE_DIRECTORIES>)
+
 target_link_libraries(${PROJECT_NAME} PUBLIC libsigc++)
 # TODO check if this can be made private
 target_link_libraries(${PROJECT_NAME} PUBLIC Microsoft.GSL::GSL)
