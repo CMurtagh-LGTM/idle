@@ -9,7 +9,7 @@ Sprite::~Sprite() { internal::ContextBroker::context().get_sprite_manager().free
 
 int Sprite::get_width() const { return ptr->w; }
 int Sprite::get_height() const { return ptr->h; }
-void Sprite::set_scale(CF_V2 scale) { ptr->scale = scale; }
-void Sprite::set_offset(CF_V2 offset) { ptr->offset = offset; }
+void Sprite::set_scale(Cute::v2 scale) { ptr->scale = scale; }
+void Sprite::set_offset(Cute::v2 offset) { ptr->offset = offset; }
 
 } // namespace engine

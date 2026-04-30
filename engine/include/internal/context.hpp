@@ -1,6 +1,7 @@
 #pragma once
 
 #include "internal/sprite_manager.hpp"
+#include "internal/text_manager.hpp"
 
 #include <sigc++/sigc++.h>
 
@@ -21,6 +22,7 @@ public:
   sigc::connection connect_process(sigc::slot<void(float)>&& slot);
 
   internal::SpriteManager& get_sprite_manager();
+  internal::TextManager& get_text_manager();
 
 private:
   Context();
@@ -29,6 +31,7 @@ private:
   sigc::signal<void(float)> process;
 
   internal::SpriteManager sprite_manager;
+  internal::TextManager text_manager;
 };
 
 class ContextBroker {

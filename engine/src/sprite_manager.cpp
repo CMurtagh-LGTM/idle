@@ -16,11 +16,12 @@ gsl::owner<CF_Sprite*> SpriteManager::new_sprite(const char* path) {
 
 void SpriteManager::free_sprite(gsl::owner<CF_Sprite*> ptr) {
   // Cute::easy_sprite_unload(ptr);
+  utils::log("Freeing sprite");
   sprites.delete_ptr(ptr);
 }
 
 void SpriteManager::draw_sprites() {
-  for (auto& sprite : sprites) {
+  for (CF_Sprite& sprite : sprites) {
     Cute::sprite_update(sprite);
     Cute::draw_sprite(sprite);
   }

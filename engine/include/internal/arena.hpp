@@ -21,7 +21,8 @@ public:
   Arena& operator=(const Arena&) = delete;
   Arena& operator=(Arena&&) = delete;
 
-  [[nodiscard]] gsl::owner<pointer> new_ptr() { return new (allocate()) value_type; }
+  template <typename... Args>
+  [[nodiscard]] gsl::owner<pointer> new_ptr(Args... args) { return new (allocate()) value_type (args...); }
 
   [[nodiscard]] gsl::owner<pointer> copy(gsl::not_null<pointer> ptr) {
     gsl::owner<pointer> new_ptr = allocate();
@@ -29,7 +30,10 @@ public:
     return new_ptr;
   }
 
-  void delete_ptr(gsl::owner<pointer> ptr) { delete ptr; }
+  void delete_ptr(gsl::owner<pointer> ptr) {
+    ptr->~value_type();
+    deallocate(ptr);
+  }
 
   class Iterator {
   public:
@@ -40,7 +44,7 @@ public:
 
     Iterator& operator++() {
       ++index;
-      while(index <= arena_ptr->last_element && !arena_ptr->used_elements[index]) {
+      while (index <= arena_ptr->last_element && !arena_ptr->used_elements[index]) {
         ++index;
       }
       return *this;
@@ -86,7 +90,7 @@ private:
 
     next_free = std::min(index, next_free);
 
-    while (!used_elements[last_element]) {
+    while (!used_elements[last_element] && last_element < 0) {
       --last_element;
     }
   }

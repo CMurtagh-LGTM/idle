@@ -36,9 +36,10 @@ void Context::start() {
     process.emit(CF_DELTA_TIME);
 
     Cute::app_update();
-    // Cute::push_font("ProggyClean");
-    // Cute::draw_text("hello", V2(-25, -50));
-    // Cute::pop_font();
+
+    Cute::push_font("ProggyClean");
+    text_manager.draw_text();
+    Cute::pop_font();
 
     sprite_manager.draw_sprites();
 
@@ -50,6 +51,7 @@ sigc::connection Context::connect_process(const sigc::slot<void(float)>& slot) {
 sigc::connection Context::connect_process(sigc::slot<void(float)>&& slot) { return process.connect(std::move(slot)); }
 
 SpriteManager& Context::get_sprite_manager() { return sprite_manager; }
+TextManager& Context::get_text_manager() { return text_manager; }
 
 Context& ContextBroker::context() {
   static Context context{};

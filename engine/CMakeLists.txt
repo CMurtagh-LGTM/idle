@@ -20,21 +20,30 @@ target_sources(${PROJECT_NAME}
 	src/sprite.cpp
 	src/utils.cpp
 	src/sprite_manager.cpp
+	src/text_manager.cpp
+
+	src/layout/text.cpp
+	src/layout/vertical_box.cpp
 )
 target_sources(${PROJECT_NAME}
 	INTERFACE
 	include/engine/engine.hpp
 	include/engine/sprite.hpp
 	include/engine/utils.hpp
+
+	include/engine/layout/text.hpp
+	include/engine/layout/vertical_box.hpp
 	
 	include/internal/arena.hpp
 	include/internal/config.hpp
 	include/internal/context.hpp
 	include/internal/sprite_manager.hpp
+	include/internal/text_manager.hpp
+
+	include/internal/layout/control_pointer.hpp
 )
 target_compile_definitions(${PROJECT_NAME} PUBLIC LOG)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
-# TODO check if include/internal can be made private by using forward declares
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 
 set(CF_FRAMEWORK_BUILD_SAMPLES OFF)
@@ -100,5 +109,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC cute)
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC $<TARGET_PROPERTY:cute,INTERFACE_INCLUDE_DIRECTORIES>)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC libsigc++)
-# TODO check if this can be made private
 target_link_libraries(${PROJECT_NAME} PUBLIC Microsoft.GSL::GSL)
