@@ -4,6 +4,7 @@ FormatStyle: file
 Checks: >
   -*,
   bugprone-*,
+  clang-analyzer-*,
   concurrency-*,
   cppcoreguidelines-*,
   google-build-using-namespace,
@@ -17,7 +18,8 @@ Checks: >
   modernize-*,
   -modernize-use-trailing-return-type,
   performance-*,
-  portability-std-allocator-const,
+  portability-*,
+  -portability-avoid-pragma-once,
   readability-*,
 CheckOptions:
   performance-for-range-copy.WarnOnAllAutoCopies: true

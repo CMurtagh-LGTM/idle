@@ -4,6 +4,8 @@
 #include "internal/text_manager.hpp"
 
 #include <gsl/gsl>
+#include <sigc++/functors/slot.h>
+#include <sigc++/signal.h>
 
 namespace engine::layout {
 
@@ -11,20 +13,25 @@ namespace engine::layout {
 class Text {
 public:
   /// Draws `new_text` at `new_position`
-  Text(std::string_view new_text, Cute::v2 new_position);
+  explicit Text(std::string_view new_text, Cute::v2 new_position = V2(0, 0));
   Text(const Text&) = delete;
   Text(Text&&) = delete;
   Text& operator=(const Text&) = delete;
   Text& operator=(Text&&) = delete;
   ~Text();
 
-  /// Fails
-  void resize(Vector2 new_size);
   /// Returns the size the text takes up on screen
   [[nodiscard]] Vector2 get_min_size() const;
+  /// Sets the top-left position
+  void set_position(Vector2 position);
+  /// Emits when the size has changed
+  void connect_needs_resize(const sigc::slot<void()>& signal);
+  /// Emits when the size has changed
+  void connect_needs_resize(sigc::slot<void()>&& signal);
 
 private:
   gsl::owner<::engine::internal::CuteText*> ptr;
+  sigc::signal<void()> needs_resize;
 };
 static_assert(internal::ControlConcept<Text>);
 

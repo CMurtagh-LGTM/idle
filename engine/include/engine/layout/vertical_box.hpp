@@ -2,20 +2,40 @@
 
 #include "internal/layout/control_pointer.hpp"
 
+#include <sigc++/functors/slot.h>
+#include <sigc++/signal.h>
 #include <vector>
 
 namespace engine::layout {
 
 class VerticalBox {
 public:
-  void resize(Vector2 new_size);
-  [[nodiscard]] Vector2 get_min_size() const;
+  VerticalBox() = default;
 
-  template <internal::Control C> void add_child();
+  // Returns the size of all child elements
+  [[nodiscard]] Vector2 get_min_size() const;
+  /// Sets the top-left position
+  void set_position(Vector2 new_position);
+  /// Emits when the size has changed
+  void connect_needs_resize(const sigc::slot<void()>& signal);
+  /// Emits when the size has changed
+  void connect_needs_resize(sigc::slot<void()>&& signal);
+
+  /// Adds a child to the bottom of the box
+  template <internal::Control C> void add_child(std::shared_ptr<C> child) {
+    controls.push_back(child);
+    child->connect_needs_resize(sigc::mem_fun(*this, &VerticalBox::compute_layout));
+    needs_resize.emit();
+  }
 
 private:
+  void compute_layout();
+
   std::vector<internal::ControlPointer> controls;
+  Vector2 position{};
+  sigc::signal<void()> needs_resize;
 };
 static_assert(internal::ControlConcept<VerticalBox>);
+static_assert(internal::LayoutConcept<VerticalBox>);
 
 } // namespace engine::layout

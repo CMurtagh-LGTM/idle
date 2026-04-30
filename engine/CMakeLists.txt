@@ -34,6 +34,7 @@ target_sources(${PROJECT_NAME}
 
 	include/engine/layout/text.hpp
 	include/engine/layout/vertical_box.hpp
+	include/engine/layout/controls.hpp
 	
 	include/internal/arena.hpp
 	include/internal/config.hpp
