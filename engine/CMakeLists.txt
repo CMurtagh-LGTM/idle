@@ -7,6 +7,7 @@ project(
 )
 
 set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_SCAN_FOR_MODULES off)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 	set(EMSCRIPTEN TRUE)
@@ -45,6 +46,11 @@ target_sources(${PROJECT_NAME}
 target_compile_definitions(${PROJECT_NAME} PUBLIC LOG)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+
+# TODO make this optional
+find_program(CLANG_TIDY_EXE NAMES "clang-tidy" REQUIRED)
+set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "--warnings-as-errors=-*")
+set_target_properties(${PROJECT_NAME} PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
 
 set(CF_FRAMEWORK_BUILD_SAMPLES OFF)
 set(CF_FRAMEWORK_BUILD_TESTS OFF)

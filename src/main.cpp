@@ -1,6 +1,6 @@
 #include "engine/engine.hpp"
-#include "engine/sprite.hpp"
 #include "engine/layout/text.hpp"
+#include "engine/sprite.hpp"
 
 #include <cute.h>
 

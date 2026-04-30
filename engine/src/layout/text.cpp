@@ -2,6 +2,11 @@
 
 #include "engine/utils.hpp"
 #include "internal/context.hpp"
+#include "internal/layout/control_pointer.hpp"
+
+#include <cassert>
+#include <cute_math.h>
+#include <string_view>
 
 namespace engine::layout {
 

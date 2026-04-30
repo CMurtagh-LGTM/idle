@@ -11,8 +11,7 @@ public:
   void resize(Vector2 new_size);
   [[nodiscard]] Vector2 get_min_size() const;
 
-  template <internal::Control C>
-  void add_child();
+  template <internal::Control C> void add_child();
 
 private:
   std::vector<internal::ControlPointer> controls;

@@ -7,8 +7,10 @@
 
 namespace engine::layout {
 
+/// Draws text on screen
 class Text {
 public:
+  /// Draws `new_text` at `new_position`
   Text(std::string_view new_text, Cute::v2 new_position);
   Text(const Text&) = delete;
   Text(Text&&) = delete;
@@ -16,7 +18,9 @@ public:
   Text& operator=(Text&&) = delete;
   ~Text();
 
+  /// Fails
   void resize(Vector2 new_size);
+  /// Returns the size the text takes up on screen
   [[nodiscard]] Vector2 get_min_size() const;
 
 private:

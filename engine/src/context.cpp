@@ -3,7 +3,14 @@
 #include "engine/utils.hpp"
 #include "proggy.h"
 
-#include <cute.h>
+#include <cute_app.h>
+#include <cute_draw.h>
+#include <cute_file_system.h>
+#include <cute_result.h>
+#include <cute_time.h>
+#include <sigc++/connection.h>
+#include <sigc++/functors/slot.h>
+#include <utility>
 
 namespace engine::internal {
 
@@ -20,7 +27,7 @@ void mount_content_folder() {
 Context::Context() {
   constexpr int width = 640;
   constexpr int height = 480;
-  CF_Result result = Cute::make_app(
+  const CF_Result result = Cute::make_app(
       "Fancy Window Title", 0, 0, 0, width, height,
       CF_APP_OPTIONS_WINDOW_POS_CENTERED_BIT | CF_APP_OPTIONS_FILE_SYSTEM_DONT_DEFAULT_MOUNT_BIT, "idle");
   utils::check_cf_result(result);
@@ -32,19 +39,19 @@ Context::Context() {
 Context::~Context() { Cute::destroy_app(); }
 
 void Context::start() {
+  Cute::push_font("ProggyClean");
   while (Cute::app_is_running()) {
     process.emit(CF_DELTA_TIME);
 
     Cute::app_update();
 
-    Cute::push_font("ProggyClean");
     text_manager.draw_text();
-    Cute::pop_font();
 
     sprite_manager.draw_sprites();
 
     Cute::app_draw_onto_screen(true);
   }
+  Cute::pop_font();
 }
 
 sigc::connection Context::connect_process(const sigc::slot<void(float)>& slot) { return process.connect(slot); }

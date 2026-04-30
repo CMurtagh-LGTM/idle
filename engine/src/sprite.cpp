@@ -2,6 +2,8 @@
 
 #include "internal/context.hpp"
 
+#include <cute_math.h>
+
 namespace engine {
 
 Sprite::Sprite(const char* path) : ptr(internal::ContextBroker::context().get_sprite_manager().new_sprite(path)) {}

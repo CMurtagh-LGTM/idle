@@ -4,40 +4,50 @@
 #include <cstdlib>
 #include <gsl/gsl>
 
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-constant-array-index)
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+// NOLINTBEGIN(cppcoreguidelines-no-malloc)
+
 namespace engine::internal {
 
+/// An arena with a maximum size of `SIZE` where elements of `T` can be allocated
 template <typename T, int SIZE> class Arena {
 public:
   using value_type = T;
   using pointer = T*;
   using difference_type = std::pointer_traits<pointer>::difference_type;
 
-  Arena()
-      : arena(static_cast<pointer>(malloc(SIZE * sizeof(T)))) // NOLINT(cppcoreguidelines-no-malloc)
-  {}
+  /// Allocates the arena but does not initialise any elements
+  Arena() : arena(static_cast<pointer>(malloc(SIZE * sizeof(T)))) {}
   ~Arena() { free(arena); }
   Arena(const Arena&) = delete;
   Arena(Arena&&) = delete;
   Arena& operator=(const Arena&) = delete;
   Arena& operator=(Arena&&) = delete;
 
-  template <typename... Args>
-  [[nodiscard]] gsl::owner<pointer> new_ptr(Args... args) { return new (allocate()) value_type (args...); }
+  /// Allocates a new element within the arena and initialises with `args`
+  template <typename... Args> [[nodiscard]] gsl::owner<pointer> new_ptr(Args... args) {
+    return new (allocate()) value_type(args...);
+  }
 
-  [[nodiscard]] gsl::owner<pointer> copy(gsl::not_null<pointer> ptr) {
+  /// Allocates a new element and copies the object stored at `other`
+  [[nodiscard]] gsl::owner<pointer> copy(const value_type& other) {
     gsl::owner<pointer> new_ptr = allocate();
-    *new_ptr = *ptr;
+    *new_ptr = other;
     return new_ptr;
   }
 
+  /// Destructs and deallocates the element that `ptr` points to
   void delete_ptr(gsl::owner<pointer> ptr) {
     ptr->~value_type();
     deallocate(ptr);
   }
 
+  /// Iterates over all allocated members of the arena
   class Iterator {
   public:
-    Iterator(Arena* arena) : arena_ptr(arena) {}
+    explicit Iterator(Arena* arena) : arena_ptr(arena) {}
     Iterator(Arena* arena, difference_type start_index) : arena_ptr(arena), index(start_index) {}
 
     value_type& operator*() { return *(arena_ptr->arena + index); }
@@ -60,10 +70,14 @@ public:
   using iterator = Iterator;
   using const_iterator = const Iterator;
 
-  iterator begin() { return iterator(this); }
-  iterator end() { return iterator(this, last_element + 1); }
-  const_iterator begin() const { return iterator(this); }
-  const_iterator end() const { return iterator(this, last_element + 1); }
+  /// Iterator to the start of the arena, iterating over allocated elements
+  [[nodiscard]] iterator begin() { return iterator(this); }
+  /// Iterator to past end of the arena, iterating over allocated elements
+  [[nodiscard]] iterator end() { return iterator(this, last_element + 1); }
+  /// Iterator to the start of the arena, iterating over allocated elements
+  [[nodiscard]] const_iterator begin() const { return iterator(this); }
+  /// Iterator to past end of the arena, iterating over allocated elements
+  [[nodiscard]] const_iterator end() const { return iterator(this, last_element + 1); }
 
 private:
   [[nodiscard]] gsl::owner<pointer> allocate() {
@@ -84,7 +98,7 @@ private:
   }
 
   void deallocate(gsl::owner<pointer> ptr) {
-    difference_type index = ptr - arena;
+    const difference_type index = ptr - arena;
     assert(used_elements[index] == true);
     used_elements[index] = false;
 
@@ -95,10 +109,15 @@ private:
     }
   }
 
-  T* arena = nullptr;
+  gsl::owner<T*> arena = nullptr;
   std::array<bool, SIZE> used_elements{};
   difference_type next_free = 0;
   difference_type last_element = 0;
 };
 
 } // namespace engine::internal
+
+// NOLINTEND(cppcoreguidelines-no-malloc)
+// NOLINTEND(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+// NOLINTEND(cppcoreguidelines-pro-bounds-constant-array-index)
+// NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)

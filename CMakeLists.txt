@@ -43,4 +43,5 @@ add_custom_target(format
     COMMENT "Formatting files with clang-format..." 
     COMMAND ${CLANG_FORMAT_EXE} -i ${format_sources} ${format_interface_sources} ${format_engine_sources} ${format_engine_interface_sources}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-) 
+)
+

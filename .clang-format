@@ -4,3 +4,8 @@ UseTab: Never
 ColumnLimit: 120
 DerivePointerAlignment: false
 PointerAlignment: Left
+
+SortIncludes: true
+MainIncludeChar: Quote
+IncludeBlocks: Regroup
+

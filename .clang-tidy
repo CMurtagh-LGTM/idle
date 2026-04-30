@@ -6,8 +6,11 @@ Checks: >
   bugprone-*,
   concurrency-*,
   cppcoreguidelines-*,
+  google-build-using-namespace,
+  google-explicit-constructor,
   google-global-names-in-headers,
   google-readability-casting,
+  # google-readability-todo,
   google-runtime-int,
   google-runtime-operator,
   misc-*,
@@ -30,3 +33,5 @@ CheckOptions:
   readability-identifier-naming.MethodCase: lower_case
   readability-identifier-naming.ParameterCase: lower_case
   readability-identifier-naming.VariableCase: lower_case
+  readability-function-size.LineThreshold: 20
+  readability-function-size.NestingThreshold: 3

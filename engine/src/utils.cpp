@@ -1,7 +1,7 @@
 #include "engine/utils.hpp"
 
 #include <cassert>
-#include <cute.h>
+#include <cute_result.h>
 #include <print>
 
 namespace engine::utils {

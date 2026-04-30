@@ -2,16 +2,19 @@
 
 #include "engine/utils.hpp"
 
-#include <cute.h>
+#include <cute_draw.h>
+#include <cute_result.h>
+#include <cute_sprite.h>
+#include <gsl/gsl>
 
 namespace engine::internal {
 
 gsl::owner<CF_Sprite*> SpriteManager::new_sprite(const char* path) {
   utils::log("Creating sprite: {}", path);
   CF_Result result;
-  CF_Sprite sprite = cf_make_easy_sprite_from_png(path, &result);
+  const CF_Sprite sprite = cf_make_easy_sprite_from_png(path, &result);
   utils::check_cf_result(result);
-  return sprites.copy(&sprite);
+  return sprites.copy(sprite);
 }
 
 void SpriteManager::free_sprite(gsl::owner<CF_Sprite*> ptr) {

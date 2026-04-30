@@ -1,5 +1,10 @@
 #include "engine/engine.hpp"
+
 #include "internal/context.hpp"
+
+#include <sigc++/connection.h>
+#include <sigc++/functors/slot.h>
+#include <utility>
 
 namespace engine {
 
