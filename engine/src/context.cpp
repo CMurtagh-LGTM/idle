@@ -1,7 +1,6 @@
 #include "internal/context.hpp"
 
 #include "engine/utils.hpp"
-#include "proggy.h"
 
 #include <cute_app.h>
 #include <cute_draw.h>
@@ -33,7 +32,7 @@ Context::Context() {
   utils::check_cf_result(result);
 
   mount_content_folder();
-  Cute::make_font_from_memory(static_cast<void*>(proggy_data), proggy_sz, "ProggyClean");
+  Cute::make_font("/content/ProggyClean.ttf", "ProggyClean");
 }
 
 Context::~Context() { Cute::destroy_app(); }
