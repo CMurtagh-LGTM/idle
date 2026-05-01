@@ -57,6 +57,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_CO
 
 set(CF_FRAMEWORK_BUILD_SAMPLES OFF)
 set(CF_FRAMEWORK_BUILD_TESTS OFF)
+set(CF_RUNTIME_SHADER_COMPILATION OFF)
+set(CF_CUTE_SHADERC OFF)
 
 include(FetchContent)
 
@@ -87,6 +89,8 @@ ExternalProject_Add(
 	BINARY_DIR     ${CMAKE_BINARY_DIR}/_deps/sigc++-build
 	INSTALL_DIR    ${CMAKE_BINARY_DIR}/_deps/sigc++-install
 
+	STEP_TARGETS   install
+
 	UPDATE_COMMAND ""
 
 	CONFIGURE_COMMAND ${MESON} setup <BINARY_DIR> <SOURCE_DIR> 
@@ -103,8 +107,9 @@ ExternalProject_Add(
 	BUILD_BYPRODUCTS <BINARY_DIR>/sigc++/libsigc-3.0.a
 
 	INSTALL_COMMAND ${MESON} install -C <BINARY_DIR>
-	INSTALL_BYPRODUCTS <INSTALL_DIR>/lib/libsigc-3.0.a <INSTALL_DIR>/include/sigc++-3.0
+	INSTALL_BYPRODUCTS <INSTALL_DIR>/lib/libsigc-3.0.a
 )
+add_dependencies(${PROJECT_NAME} sigc++-install)
 add_library(libsigc++ STATIC IMPORTED)
 make_directory(${CMAKE_BINARY_DIR}/_deps/sigc++-install/include/sigc++-3.0)
 make_directory(${CMAKE_BINARY_DIR}/_deps/sigc++-install/lib/sigc++-3.0/include)

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <sigc++/sigc++.h>
+#include <sigc++/functors/slot.h>
+#include <sigc++/connection.h>
 
 namespace engine {
 

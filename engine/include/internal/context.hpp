@@ -3,7 +3,7 @@
 #include "internal/sprite_manager.hpp"
 #include "internal/text_manager.hpp"
 
-#include <sigc++/sigc++.h>
+#include <sigc++/signal.h>
 
 namespace engine::internal {
 
