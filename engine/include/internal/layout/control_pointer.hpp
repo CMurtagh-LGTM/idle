@@ -44,6 +44,6 @@ struct layout_concept_impl<L, std::variant<Cs...>> : std::bool_constant<has_all_
 
 /// Make sure that we can add children to and resize a layout
 template <typename L>
-concept LayoutConcept = Control<L> && layout_concept_impl<L, ControlPointer>::value;
+concept LayoutConcept = layout_concept_impl<L, ControlPointer>::value;
 
 } // namespace engine::layout::internal
