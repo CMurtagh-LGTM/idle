@@ -1,4 +1,5 @@
 #include "engine/engine.hpp"
+#include "engine/layout/image.hpp"
 #include "engine/layout/root.hpp"
 #include "engine/layout/text.hpp"
 #include "engine/layout/vertical_box.hpp"
@@ -18,6 +19,7 @@ int main() {
 
   std::shared_ptr<engine::layout::VerticalBox> v_box = std::make_shared<engine::layout::VerticalBox>();
   v_box->add_child(std::make_shared<engine::layout::Text>("hi"));
+  v_box->add_child(std::make_shared<engine::layout::Image>("content/person.png"));
   v_box->add_child(std::make_shared<engine::layout::Text>("bye"));
   engine::layout::Root root{v_box, V2(-100, 0)};
 

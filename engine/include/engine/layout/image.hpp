@@ -1,7 +1,7 @@
 #pragma once
 
+#include "engine/sprite.hpp"
 #include "internal/layout/control_pointer.hpp"
-#include "internal/text_manager.hpp"
 
 #include <gsl/gsl>
 #include <sigc++/functors/slot.h>
@@ -9,18 +9,18 @@
 
 namespace engine::layout {
 
-/// Draws text on screen
-class Text {
+/// Draws an image that can be in a layout
+class Image {
 public:
-  /// Draws `new_text` at `new_position`
-  explicit Text(std::string_view new_text, Vector2 new_position = V2(0, 0));
-  Text(const Text&) = delete;
-  Text(Text&&) = delete;
-  Text& operator=(const Text&) = delete;
-  Text& operator=(Text&&) = delete;
-  ~Text();
+  /// Draws the image from `path` that can be in a layout
+  explicit Image(const char* path, Vector2 new_position = V2(0, 0));
+  Image(const Image&) = delete;
+  Image(Image&&) = delete;
+  Image& operator=(const Image&) = delete;
+  Image& operator=(Image&&) = delete;
+  ~Image() = default;
 
-  /// Returns the size the text takes up on screen
+  /// Returns the size the image takes up on screen
   [[nodiscard]] Vector2 get_min_size() const;
   /// Sets the top-left position
   void set_position(Vector2 position);
@@ -30,9 +30,9 @@ public:
   void connect_needs_resize(sigc::slot<void()>&& signal);
 
 private:
-  gsl::owner<::engine::internal::CuteText*> ptr;
+  Sprite sprite;
   sigc::signal<void()> needs_resize;
 };
-static_assert(internal::ControlConcept<Text>);
+static_assert(internal::ControlConcept<Image>);
 
 } // namespace engine::layout

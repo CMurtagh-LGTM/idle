@@ -11,7 +11,7 @@
 
 namespace engine::layout {
 
-Text::Text(std::string_view new_text, Cute::v2 new_position)
+Text::Text(std::string_view new_text, Vector2 new_position)
     : ptr(::engine::internal::ContextBroker::context().get_text_manager().new_text(new_text, new_position)) {}
 Text::~Text() { ::engine::internal::ContextBroker::context().get_text_manager().free_text(ptr); }
 

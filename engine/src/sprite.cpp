@@ -6,7 +6,10 @@
 
 namespace engine {
 
-Sprite::Sprite(const char* path) : ptr(internal::ContextBroker::context().get_sprite_manager().new_sprite(path)) {}
+Sprite::Sprite(const char* path, Cute::v2 new_position)
+    : ptr(internal::ContextBroker::context().get_sprite_manager().new_sprite(path)) {
+  ptr->offset = new_position;
+}
 Sprite::~Sprite() { internal::ContextBroker::context().get_sprite_manager().free_sprite(ptr); }
 
 int Sprite::get_width() const { return ptr->w; }

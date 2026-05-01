@@ -9,7 +9,7 @@ namespace engine {
 class Sprite {
 public:
   /// Creates a sprite from given path
-  explicit Sprite(const char* path);
+  explicit Sprite(const char* path, Cute::v2 position = V2(0, 0));
   Sprite(const Sprite&) = delete;
   Sprite(Sprite&&) = delete;
   Sprite& operator=(const Sprite&) = delete;

@@ -24,6 +24,7 @@ target_sources(${PROJECT_NAME}
 	src/text_manager.cpp
 
 	src/layout/text.cpp
+	src/layout/image.cpp
 	src/layout/vertical_box.cpp
 	src/layout/root.cpp
 )
@@ -34,6 +35,7 @@ target_sources(${PROJECT_NAME}
 	include/engine/utils.hpp
 
 	include/engine/layout/text.hpp
+	include/engine/layout/image.hpp
 	include/engine/layout/vertical_box.hpp
 	include/engine/layout/controls.hpp
 	include/engine/layout/root.hpp

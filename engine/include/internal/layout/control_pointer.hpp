@@ -8,6 +8,7 @@
 
 namespace engine::layout {
 class Text;
+class Image;
 class VerticalBox;
 
 using Vector2 = Cute::v2;
@@ -26,7 +27,7 @@ concept ControlConcept = requires(const C& control) {
 };
 
 /// Points to a control object
-using ControlPointer = std::variant<std::shared_ptr<Text>, std::shared_ptr<VerticalBox>>;
+using ControlPointer = std::variant<std::shared_ptr<Text>, std::shared_ptr<Image>, std::shared_ptr<VerticalBox>>;
 
 /// Makes sure that `C` can be stored in a `ControlPointer`
 template <typename C>
