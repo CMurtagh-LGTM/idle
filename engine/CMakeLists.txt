@@ -17,22 +17,26 @@ add_library(${PROJECT_NAME} STATIC)
 target_sources(${PROJECT_NAME}
 	PRIVATE
 	src/engine.cpp
-	src/context.cpp
 	src/sprite.cpp
 	src/utils.cpp
-	src/sprite_manager.cpp
-	src/text_manager.cpp
+	src/shape.cpp
 
 	src/layout/text.cpp
 	src/layout/image.cpp
 	src/layout/vertical_box.cpp
 	src/layout/root.cpp
+
+	src/context.cpp
+	src/sprite_manager.cpp
+	src/text_manager.cpp
+	src/shape_manager.cpp
 )
 target_sources(${PROJECT_NAME}
 	INTERFACE
 	include/engine/engine.hpp
 	include/engine/sprite.hpp
 	include/engine/utils.hpp
+	include/engine/shape.hpp
 
 	include/engine/layout/text.hpp
 	include/engine/layout/image.hpp
@@ -45,6 +49,7 @@ target_sources(${PROJECT_NAME}
 	include/internal/context.hpp
 	include/internal/sprite_manager.hpp
 	include/internal/text_manager.hpp
+	include/internal/shape_manager.hpp
 
 	include/internal/layout/control_pointer.hpp
 )

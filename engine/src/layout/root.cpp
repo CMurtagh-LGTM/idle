@@ -1,6 +1,6 @@
 #include "engine/layout/root.hpp"
 
-#include "engine/layout/controls.hpp" // NOLINT(misc-include-cleaner)
+#include "engine/layout/controls.hpp"
 
 #include <variant>
 

@@ -47,10 +47,12 @@ public:
   /// Iterates over all allocated members of the arena
   class Iterator {
   public:
+    using value_type = Arena<T, SIZE>::value_type;
+    using difference_type = Arena<T, SIZE>::difference_type;
     explicit Iterator(Arena* arena) : arena_ptr(arena) {}
     Iterator(Arena* arena, difference_type start_index) : arena_ptr(arena), index(start_index) {}
 
-    value_type& operator*() { return *(arena_ptr->arena + index); }
+    value_type& operator*() const { return *(arena_ptr->arena + index); }
 
     Iterator& operator++() {
       ++index;
@@ -59,6 +61,7 @@ public:
       }
       return *this;
     }
+    void operator++(int) { ++*this; }
 
     bool operator==(const Iterator& other) const { return arena_ptr == other.arena_ptr && index == other.index; }
 
@@ -68,7 +71,7 @@ public:
   };
 
   using iterator = Iterator;
-  using const_iterator = const Iterator;
+  using const_iterator = std::const_iterator<Iterator>;
 
   /// Iterator to the start of the arena, iterating over allocated elements
   [[nodiscard]] iterator begin() { return iterator(this); }

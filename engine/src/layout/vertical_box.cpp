@@ -1,6 +1,6 @@
 #include "engine/layout/vertical_box.hpp"
 
-#include "engine/layout/controls.hpp" // NOLINT(misc-include-cleaner)
+#include "engine/layout/controls.hpp"
 #include "internal/layout/control_pointer.hpp"
 
 #include <algorithm>

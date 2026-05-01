@@ -45,8 +45,8 @@ void Context::start() {
     Cute::app_update();
 
     text_manager.draw_text();
-
     sprite_manager.draw_sprites();
+    shape_manager.draw_shapes();
 
     Cute::app_draw_onto_screen(true);
   }
@@ -58,6 +58,7 @@ sigc::connection Context::connect_process(sigc::slot<void(float)>&& slot) { retu
 
 SpriteManager& Context::get_sprite_manager() { return sprite_manager; }
 TextManager& Context::get_text_manager() { return text_manager; }
+ShapeManager& Context::get_shape_manager() { return shape_manager; }
 
 Context& ContextBroker::context() {
   static Context context{};

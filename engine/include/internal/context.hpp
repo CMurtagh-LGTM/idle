@@ -1,5 +1,6 @@
 #pragma once
 
+#include "internal/shape_manager.hpp"
 #include "internal/sprite_manager.hpp"
 #include "internal/text_manager.hpp"
 
@@ -29,6 +30,8 @@ public:
   internal::SpriteManager& get_sprite_manager();
   /// The text manager managers all the text drawn
   internal::TextManager& get_text_manager();
+  /// The shape manager managers all the shapes drawn
+  internal::ShapeManager& get_shape_manager();
 
 private:
   Context();
@@ -38,6 +41,7 @@ private:
 
   internal::SpriteManager sprite_manager;
   internal::TextManager text_manager;
+  internal::ShapeManager shape_manager;
 };
 
 /// Holds a global `Context`

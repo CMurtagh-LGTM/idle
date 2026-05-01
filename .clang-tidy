@@ -1,6 +1,7 @@
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*\.hpp'
 FormatStyle: file
+UseColor: true
 Checks: >
   -*,
   bugprone-*,
@@ -36,4 +37,5 @@ CheckOptions:
   readability-identifier-naming.ParameterCase: lower_case
   readability-identifier-naming.VariableCase: lower_case
   readability-function-size.LineThreshold: 20
+  readability-function-size.StatementThreshold: 10
   readability-function-size.NestingThreshold: 3
