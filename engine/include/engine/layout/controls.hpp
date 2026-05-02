@@ -3,6 +3,7 @@
 // IWYU pragma: begin_exports
 
 #include "engine/layout/image.hpp"
+#include "engine/layout/panel.hpp"
 #include "engine/layout/text.hpp"
 #include "engine/layout/vertical_box.hpp"
 

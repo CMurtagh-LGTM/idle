@@ -4,7 +4,7 @@
 
 #include <gsl/gsl>
 
-namespace engine {
+namespace engine::shape {
 
 /// Draws a axis aligned box
 class Box {
@@ -22,13 +22,16 @@ public:
 
   /// Sets the width and height
   void set_extents(Cute::v2 extents);
+  /// Gets the width and height
+  [[nodiscard]] Cute::v2 get_extents() const;
 
   /// Sets if the shape will be drawn filled
   void set_fill(bool fill);
 
 private:
   internal::Box& get();
+  [[nodiscard]] const internal::Box& get() const;
   gsl::owner<internal::CuteShape*> ptr;
 };
 
-} // namespace engine
+} // namespace engine::shape

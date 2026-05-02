@@ -1,18 +1,16 @@
 #pragma once
 
+#include "engine/shape.hpp"
 #include "internal/layout/control_pointer.hpp"
 
-#include <sigc++/functors/slot.h>
 #include <sigc++/signal.h>
-#include <vector>
 
 namespace engine::layout {
 
-/// Displays a list of controls in a vertical list
-class VerticalBox {
+/// Draws a box under the child control
+class Panel {
 public:
-  VerticalBox() = default;
-
+  Panel() = default;
   // Returns the size of all child elements
   [[nodiscard]] Vector2 get_min_size() const;
   /// Sets the top-left position
@@ -22,21 +20,21 @@ public:
   /// Emits when the size has changed
   void connect_needs_resize(sigc::slot<void()>&& signal);
 
-  /// Adds a child to the bottom of the box
-  template <internal::Control C> void add_child(std::shared_ptr<C> child) {
-    controls.push_back(child);
-    child->connect_needs_resize(sigc::mem_fun(*this, &VerticalBox::compute_layout));
+  /// Draws a box under the child, note this is part of the layout and should be the only parent of child
+  template <internal::Control C> void set_child(std::shared_ptr<C> child) {
+    control = child;
+    child->connect_needs_resize(sigc::mem_fun(*this, &Panel::compute_layout));
     needs_resize.emit();
   }
 
 private:
   void compute_layout();
-
-  std::vector<internal::ControlPointer> controls;
   Vector2 position{};
+
+  engine::shape::Box box{Cute::make_aabb(V2(0, 0), 0, 0)};
+  internal::ControlPointer control;
   sigc::signal<void()> needs_resize;
 };
-static_assert(internal::ControlConcept<VerticalBox>);
-static_assert(internal::LayoutConcept<VerticalBox>);
+static_assert(internal::ControlConcept<Panel>);
 
 } // namespace engine::layout

@@ -3,7 +3,6 @@
 #include <cute_draw.h>
 #include <cute_math.h>
 #include <gsl/gsl>
-#include <variant>
 
 namespace engine::internal {
 
@@ -27,7 +26,7 @@ void ShapeManager::free_shape(gsl::owner<CuteShape*> ptr) { shapes.delete_ptr(pt
 
 void ShapeManager::draw_shapes() {
   for (CuteShape& shape : shapes) {
-    std::visit([](auto&& shape) { shape.draw(); }, shape);
+    shape.visit([](auto&& shape) { shape.draw(); });
   }
 }
 
