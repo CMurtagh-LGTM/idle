@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/layout/text_settings.hpp"
 #include "internal/layout/control_pointer.hpp"
 #include "internal/text_manager.hpp"
 
@@ -13,7 +14,7 @@ namespace engine::layout {
 class Text {
 public:
   /// Draws `new_text` at `new_position`
-  explicit Text(std::string_view new_text, Vector2 new_position = V2(0, 0));
+  explicit Text(std::string_view new_text, TextSettings settings = TextSettings());
   Text(const Text&) = delete;
   Text(Text&&) = delete;
   Text& operator=(const Text&) = delete;

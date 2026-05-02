@@ -41,6 +41,7 @@ target_sources(${PROJECT_NAME}
 	include/engine/shape_settings.hpp
 
 	include/engine/layout/text.hpp
+	include/engine/layout/text_settings.hpp
 	include/engine/layout/image.hpp
 	include/engine/layout/vertical_box.hpp
 	include/engine/layout/panel.hpp

@@ -13,7 +13,7 @@ namespace engine::layout {
 class Image {
 public:
   /// Draws the image from `path` that can be in a layout
-  explicit Image(const char* path, Vector2 new_position = V2(0, 0));
+  explicit Image(const char* path);
   Image(const Image&) = delete;
   Image(Image&&) = delete;
   Image& operator=(const Image&) = delete;

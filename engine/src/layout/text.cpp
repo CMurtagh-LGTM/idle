@@ -1,5 +1,6 @@
 #include "engine/layout/text.hpp"
 
+#include "engine/layout/text_settings.hpp"
 #include "internal/context.hpp"
 #include "internal/layout/control_pointer.hpp"
 
@@ -11,8 +12,8 @@
 
 namespace engine::layout {
 
-Text::Text(std::string_view new_text, Vector2 new_position)
-    : ptr(::engine::internal::ContextBroker::context().get_text_manager().new_text(new_text, new_position)) {}
+Text::Text(std::string_view new_text, TextSettings settings)
+    : ptr(::engine::internal::ContextBroker::context().get_text_manager().new_text(new_text, V2(0, 0), settings)) {}
 Text::~Text() { ::engine::internal::ContextBroker::context().get_text_manager().free_text(ptr); }
 
 void Text::set_position(Vector2 position) { ptr->set_position(position); }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/layout/text_settings.hpp"
 #include "internal/arena.hpp"
 #include "internal/config.hpp"
 
@@ -14,7 +15,7 @@ class CuteText {
 public:
   CuteText() = default;
   /// Creates a text object that will draw `new_text` at `new_position`
-  CuteText(std::string_view new_text, Cute::v2 new_position);
+  CuteText(std::string_view new_text, Cute::v2 new_position, layout::TextSettings new_settings);
   void set_text(std::string_view new_text);
   void set_position(Cute::v2 new_position);
 
@@ -27,13 +28,15 @@ public:
 private:
   std::string text;
   Cute::v2 position{};
+  layout::TextSettings settings;
 };
 
 /// Manages text to be drawn on screen
 class TextManager {
 public:
   /// Creates a text object that will draw `new_text` at `new_position`
-  gsl::owner<CuteText*> new_text(std::string_view new_text, Cute::v2 new_position);
+  gsl::owner<CuteText*> new_text(std::string_view new_text, Cute::v2 new_position,
+                                 layout::TextSettings new_settings = layout::TextSettings());
   /// Deallocates a text object
   void free_text(gsl::owner<CuteText*> ptr);
 
