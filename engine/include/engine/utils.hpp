@@ -44,7 +44,7 @@ public:
 template <typename... Ts> struct are_unique_types : std::true_type {};
 template <typename T, typename... Ts>
 struct are_unique_types<T, Ts...>
-    : std::bool_constant<(!std::is_same_v<T, Ts> && ... && true) && are_unique_types<Ts...>::value> {};
+    : std::bool_constant<(!std::is_same_v<T, Ts> && ...) && are_unique_types<Ts...>::value> {};
 template <typename... Ts> constexpr bool are_unique_types_v = are_unique_types<Ts...>::value;
 
 template <typename T, typename... Ts> struct contains_type : std::bool_constant<(std::is_same_v<T, Ts> || ...)> {};
