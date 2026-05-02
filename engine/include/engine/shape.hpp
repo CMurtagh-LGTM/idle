@@ -10,14 +10,24 @@ namespace engine {
 class Box {
 public:
   /// Draws a axis aligned box at the given offset of the given size
-  explicit Box(Cute::v2 offset, float width, float height);
+  explicit Box(CF_Aabb aabb, bool fill = false);
   Box(const Box&) = delete;
   Box(Box&&) = delete;
   Box& operator=(const Box&) = delete;
   Box& operator=(Box&&) = delete;
   ~Box();
 
+  /// Sets the position of the middle of shape
+  void set_offset(Cute::v2 offset);
+
+  /// Sets the width and height
+  void set_extents(Cute::v2 extents);
+
+  /// Sets if the shape will be drawn filled
+  void set_fill(bool fill);
+
 private:
+  internal::Box& get();
   gsl::owner<internal::CuteShape*> ptr;
 };
 

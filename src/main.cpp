@@ -24,8 +24,8 @@ int main() {
   engine::layout::Root root{v_box, V2(-100, 0)};
 
   engine::layout::Text text{"test", V2(0, 0)};
-
-  engine::Box box{V2(0, 0), 32, 32};
+  engine::Box box{Cute::make_aabb(V2(0, 0), 32, 32)};
+  engine::Box box_filled{Cute::make_aabb(V2(0, 100), 32, 32), true};
 
   engine::start();
 
