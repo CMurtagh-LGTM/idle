@@ -4,7 +4,6 @@
 
 #include <cute_draw.h>
 #include <cute_math.h>
-#include <gsl/gsl>
 #include <string_view>
 #include <utility>
 
@@ -23,17 +22,5 @@ void CuteText::draw() {
 }
 
 Cute::v2 CuteText::get_min_size() const { return Cute::text_size(text.c_str()); }
-
-gsl::owner<CuteText*> TextManager::new_text(std::string_view new_text, Cute::v2 new_position,
-                                            layout::TextSettings settings) {
-  return text.new_ptr(new_text, new_position, settings);
-}
-void TextManager::free_text(gsl::owner<CuteText*> ptr) { text.delete_ptr(ptr); }
-
-void TextManager::draw_text() {
-  for (CuteText& cute_text : text) {
-    cute_text.draw();
-  }
-}
 
 } // namespace engine::internal

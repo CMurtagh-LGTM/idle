@@ -11,7 +11,7 @@ namespace engine::shape {
 class Box {
 public:
   /// Draws a axis aligned box at the given offset of the given size
-  explicit Box(CF_Aabb aabb, ShapeSettings settings = ShapeSettings());
+  explicit Box(CF_Aabb aabb, BoxSettings settings = BoxSettings());
   Box(const Box&) = delete;
   Box(Box&&) = delete;
   Box& operator=(const Box&) = delete;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "internal/sprite_manager.hpp"
+
 #include <cute.h>
 #include <gsl/gsl>
 
@@ -26,7 +28,7 @@ public:
   void set_offset(Cute::v2 offset);
 
 private:
-  gsl::owner<CF_Sprite*> ptr;
+  gsl::owner<internal::CuteSprite*> ptr;
 };
 
 } // namespace engine

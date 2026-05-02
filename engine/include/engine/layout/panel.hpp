@@ -10,7 +10,7 @@ namespace engine::layout {
 /// Draws a box under the child control
 class Panel {
 public:
-  explicit Panel(shape::ShapeSettings settings = shape::ShapeSettings());
+  explicit Panel(shape::BoxSettings settings = shape::BoxSettings());
   // Returns the size of all child elements
   [[nodiscard]] Vector2 get_min_size() const;
   /// Sets the top-left position

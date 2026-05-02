@@ -1,11 +1,10 @@
 #pragma once
 
 #include "engine/layout/text_settings.hpp"
-#include "internal/arena.hpp"
 #include "internal/config.hpp"
+#include "internal/manager.hpp"
 
 #include <cute_math.h>
-#include <gsl/gsl>
 #include <string_view>
 
 namespace engine::internal {
@@ -32,19 +31,6 @@ private:
 };
 
 /// Manages text to be drawn on screen
-class TextManager {
-public:
-  /// Creates a text object that will draw `new_text` at `new_position`
-  gsl::owner<CuteText*> new_text(std::string_view new_text, Cute::v2 new_position,
-                                 layout::TextSettings new_settings = layout::TextSettings());
-  /// Deallocates a text object
-  void free_text(gsl::owner<CuteText*> ptr);
-
-  /// Draws all text managed
-  void draw_text();
-
-private:
-  Arena<CuteText, TEXT_COUNT> text;
-};
+using TextManager = Manager<TEXT_COUNT, CuteText>;
 
 } // namespace engine::internal

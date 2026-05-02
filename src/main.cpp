@@ -10,12 +10,12 @@ int main() {
   v_box->add_child(std::make_shared<engine::layout::Text>("hi", engine::layout::TextSettings{Cute::color_white()}));
   v_box->add_child(std::make_shared<engine::layout::Image>("content/person.png"));
   std::shared_ptr<engine::layout::Panel> panel =
-      std::make_shared<engine::layout::Panel>(engine::shape::ShapeSettings{engine::shape::FILL, Cute::color_white()});
+      std::make_shared<engine::layout::Panel>(engine::shape::BoxSettings{engine::shape::FILL, Cute::color_white()});
   panel->set_child(std::make_shared<engine::layout::Text>("panel", engine::layout::TextSettings{Cute::color_black()}));
   v_box->add_child(panel);
   v_box->add_child(std::make_shared<engine::layout::Text>("bye", engine::layout::TextSettings{Cute::color_white()}));
   std::shared_ptr<engine::layout::Panel> panel2 =
-      std::make_shared<engine::layout::Panel>(engine::shape::ShapeSettings{Cute::color_white()});
+      std::make_shared<engine::layout::Panel>(engine::shape::BoxSettings{Cute::color_white()});
   panel2->set_child(std::make_shared<engine::layout::Image>("content/person.png"));
   v_box->add_child(panel2);
   engine::layout::Root root{v_box, V2(-100, 100)};

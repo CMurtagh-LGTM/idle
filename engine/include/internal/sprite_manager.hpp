@@ -1,25 +1,33 @@
 #pragma once
 
-#include "internal/arena.hpp"
 #include "internal/config.hpp"
+#include "internal/manager.hpp"
 
 #include <cute.h>
 
 namespace engine::internal {
 
-/// Manages sprites to be drawn on screen
-class SpriteManager {
+/// A wrapper to manage drawing a sprite
+class CuteSprite {
 public:
   /// Creates a sprite from given path
-  gsl::owner<CF_Sprite*> new_sprite(const char* path);
-  /// Deallocates a sprite
-  void free_sprite(gsl::owner<CF_Sprite*> ptr);
-
-  /// Draws all sprites managed
-  void draw_sprites();
+  explicit CuteSprite(const char* path);
+  /// Draws the sprite
+  void draw();
+  /// The width of the sprite in pixels
+  [[nodiscard]] int get_width() const;
+  /// The height of the sprite in pixels
+  [[nodiscard]] int get_height() const;
+  /// Scale factor for the sprite when drawing
+  void set_scale(Cute::v2 scale);
+  /// A local offset/origin for the sprite when drawing
+  void set_offset(Cute::v2 offset);
 
 private:
-  Arena<CF_Sprite, SPRITE_COUNT> sprites;
+  CF_Sprite sprite{};
 };
+
+/// Manages sprites to be drawn on screen
+using SpriteManager = Manager<SPRITE_COUNT, CuteSprite>;
 
 } // namespace engine::internal

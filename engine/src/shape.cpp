@@ -8,9 +8,9 @@
 
 namespace engine::shape {
 
-Box::Box(CF_Aabb aabb, ShapeSettings settings)
-    : ptr(internal::ContextBroker::context().get_shape_manager().new_shape<internal::Box>(aabb, settings)) {}
-Box::~Box() { internal::ContextBroker::context().get_shape_manager().free_shape(ptr); }
+Box::Box(CF_Aabb aabb, BoxSettings settings)
+    : ptr(internal::ContextBroker::context().get_shape_manager().create<internal::Box>(aabb, settings)) {}
+Box::~Box() { internal::ContextBroker::context().get_shape_manager().free(ptr); }
 
 void Box::set_offset(Cute::v2 offset) {
   get().set_aabb(Cute::make_aabb_center_half_extents(offset, Cute::half_extents(get().get_aabb())));

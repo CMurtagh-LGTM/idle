@@ -32,6 +32,7 @@ static constexpr Fill FILL{true};
 static constexpr Fill NOFILL{!FILL};
 
 /// Holds the settings required to know how to draw a shape
-using ShapeSettings = utils::SettingsTuple<Fill, Stroke, Chubbiness, Colour>;
+using BoxSettings = utils::SettingsTuple<Fill, Stroke, Chubbiness, Colour>;
+using CircleSettings = utils::SettingsTuple<Fill, Stroke, Colour>;
 
 } // namespace engine::shape

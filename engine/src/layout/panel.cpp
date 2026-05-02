@@ -10,7 +10,7 @@
 
 namespace engine::layout {
 
-Panel::Panel(shape::ShapeSettings settings) : box(Cute::make_aabb(V2(0, 0), 0, 0), settings) {}
+Panel::Panel(shape::BoxSettings settings) : box(Cute::make_aabb(V2(0, 0), 0, 0), settings) {}
 
 // NOLINTBEGIN(misc-no-recursion)
 Vector2 Panel::get_min_size() const {

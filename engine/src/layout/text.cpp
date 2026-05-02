@@ -13,8 +13,8 @@
 namespace engine::layout {
 
 Text::Text(std::string_view new_text, TextSettings settings)
-    : ptr(::engine::internal::ContextBroker::context().get_text_manager().new_text(new_text, V2(0, 0), settings)) {}
-Text::~Text() { ::engine::internal::ContextBroker::context().get_text_manager().free_text(ptr); }
+    : ptr(::engine::internal::ContextBroker::context().get_text_manager().create(new_text, V2(0, 0), settings)) {}
+Text::~Text() { ::engine::internal::ContextBroker::context().get_text_manager().free(ptr); }
 
 void Text::set_position(Vector2 position) { ptr->set_position(position); }
 Vector2 Text::get_min_size() const { return ptr->get_min_size(); }
