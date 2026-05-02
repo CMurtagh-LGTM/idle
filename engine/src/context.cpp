@@ -44,9 +44,9 @@ void Context::start() {
 
     Cute::app_update();
 
+    shape_manager.draw_shapes();
     text_manager.draw_text();
     sprite_manager.draw_sprites();
-    shape_manager.draw_shapes();
 
     Cute::app_draw_onto_screen(true);
   }

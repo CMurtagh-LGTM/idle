@@ -1,7 +1,7 @@
 #include "engine/layout/panel.hpp"
 
 #include "engine/layout/controls.hpp"
-#include "engine/utils.hpp"
+#include "engine/shape_settings.hpp"
 #include "internal/layout/control_pointer.hpp"
 
 #include <cute_math.h>
@@ -9,6 +9,8 @@
 #include <utility>
 
 namespace engine::layout {
+
+Panel::Panel(shape::ShapeSettings settings) : box(Cute::make_aabb(V2(0, 0), 0, 0), settings) {}
 
 // NOLINTBEGIN(misc-no-recursion)
 Vector2 Panel::get_min_size() const {
@@ -24,7 +26,6 @@ void Panel::connect_needs_resize(const sigc::slot<void()>& signal) { needs_resiz
 void Panel::connect_needs_resize(sigc::slot<void()>&& signal) { needs_resize.connect(std::move(signal)); }
 
 void Panel::compute_layout() {
-  utils::log("{}", position);
   control.visit([this](auto&& ptr) { ptr->set_position(position); });
   box.set_extents(control.visit([](auto&& ptr) { return ptr->get_min_size(); }));
   box.set_offset(position + V2(1, -1) * box.get_extents() / 2);

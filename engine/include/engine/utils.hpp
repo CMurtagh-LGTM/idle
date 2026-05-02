@@ -23,6 +23,16 @@ void log([[maybe_unused]] std::format_string<Args...> format_string, [[maybe_unu
 /// If `result` is an error print it and abort
 void check_cf_result(CF_Result result);
 
+/// NOLINTBEGIN(readability-identifier-naming)
+template <typename... Ts> struct are_unique : std::true_type {};
+
+template <typename T, typename... Ts>
+struct are_unique<T, Ts...> : std::bool_constant<(!std::is_same_v<T, Ts> && ... && true) && are_unique<Ts...>::value> {
+};
+
+template <typename... Ts> constexpr bool are_unique_v = are_unique<Ts...>::value;
+/// NOLINTEND(readability-identifier-naming)
+
 } // namespace engine::utils
 
 template <> struct std::formatter<Cute::v2> {

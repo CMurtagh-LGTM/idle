@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/shape_settings.hpp"
 #include "internal/shape_manager.hpp"
 
 #include <gsl/gsl>
@@ -10,7 +11,7 @@ namespace engine::shape {
 class Box {
 public:
   /// Draws a axis aligned box at the given offset of the given size
-  explicit Box(CF_Aabb aabb, bool fill = false);
+  explicit Box(CF_Aabb aabb, ShapeSettings settings = ShapeSettings());
   Box(const Box&) = delete;
   Box(Box&&) = delete;
   Box& operator=(const Box&) = delete;
@@ -24,9 +25,6 @@ public:
   void set_extents(Cute::v2 extents);
   /// Gets the width and height
   [[nodiscard]] Cute::v2 get_extents() const;
-
-  /// Sets if the shape will be drawn filled
-  void set_fill(bool fill);
 
 private:
   internal::Box& get();

@@ -10,7 +10,7 @@ namespace engine::layout {
 /// Draws a box under the child control
 class Panel {
 public:
-  Panel() = default;
+  explicit Panel(shape::ShapeSettings settings = shape::ShapeSettings());
   // Returns the size of all child elements
   [[nodiscard]] Vector2 get_min_size() const;
   /// Sets the top-left position
@@ -31,7 +31,7 @@ private:
   void compute_layout();
   Vector2 position{};
 
-  engine::shape::Box box{Cute::make_aabb(V2(0, 0), 0, 0)};
+  engine::shape::Box box;
   internal::ControlPointer control;
   sigc::signal<void()> needs_resize;
 };

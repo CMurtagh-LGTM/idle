@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/shape_settings.hpp"
 #include "internal/arena.hpp"
 #include "internal/config.hpp"
 
@@ -13,7 +14,7 @@ namespace engine::internal {
 class Box {
 public:
   /// Draws a box with aabb
-  explicit Box(CF_Aabb new_aabb, bool new_fill);
+  explicit Box(CF_Aabb new_aabb, shape::ShapeSettings new_settings);
   /// Draws the box onto screen
   void draw();
 
@@ -22,12 +23,9 @@ public:
   /// Get the aabb
   [[nodiscard]] CF_Aabb get_aabb() const;
 
-  void set_fill(bool new_fill);
-  [[nodiscard]] bool get_fill() const;
-
 private:
   CF_Aabb aabb;
-  bool fill;
+  shape::ShapeSettings settings;
 };
 
 using CuteShape = std::variant<Box>;

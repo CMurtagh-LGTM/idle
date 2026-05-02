@@ -38,6 +38,7 @@ target_sources(${PROJECT_NAME}
 	include/engine/sprite.hpp
 	include/engine/utils.hpp
 	include/engine/shape.hpp
+	include/engine/shape_settings.hpp
 
 	include/engine/layout/text.hpp
 	include/engine/layout/image.hpp
