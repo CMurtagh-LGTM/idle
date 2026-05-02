@@ -39,6 +39,8 @@ target_sources(${PROJECT_NAME}
 	include/engine/utils.hpp
 	include/engine/shape.hpp
 	include/engine/shape_settings.hpp
+	include/engine/settings_tuple.hpp
+	include/engine/type_traits.hpp
 
 	include/engine/layout/text.hpp
 	include/engine/layout/text_settings.hpp

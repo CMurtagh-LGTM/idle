@@ -40,48 +40,7 @@ public:
   constexpr operator value_type() const noexcept { return value; } // NOLINT(google-explicit-constructor)
   constexpr value_type operator()() const noexcept { return value; }
 };
-
-template <typename... Ts> struct are_unique_types : std::true_type {};
-template <typename T, typename... Ts>
-struct are_unique_types<T, Ts...>
-    : std::bool_constant<(!std::is_same_v<T, Ts> && ...) && are_unique_types<Ts...>::value> {};
-template <typename... Ts> constexpr bool are_unique_types_v = are_unique_types<Ts...>::value;
-
-template <typename T, typename... Ts> struct contains_type : std::bool_constant<(std::is_same_v<T, Ts> || ...)> {};
-template <typename T, typename... Ts> constexpr bool contains_type_v = contains_type<T, Ts...>::value;
 // NOLINTEND(readability-identifier-naming)
-
-template <typename... S> class SettingsTuple {
-public:
-  SettingsTuple() = default;
-  /// Sets the settings
-  template <typename... Settings>
-  SettingsTuple(Settings... args) // NOLINT(google-explicit-constructor)
-    requires(contains_type_v<Settings, S...> && ...)
-  {
-    static_assert(are_unique_types_v<Settings...>);
-    (set(args), ...);
-  }
-
-  /// Sets the setting with type `Setting` to the value
-  template <typename Setting>
-  void set(Setting setting)
-    requires contains_type_v<Setting, S...>
-  {
-    std::get<Setting>(settings) = setting;
-  }
-
-  /// Gets the setting with value `Setting`
-  template <typename Setting>
-  [[nodiscard]] Setting get() const
-    requires contains_type_v<Setting, S...>
-  {
-    return std::get<Setting>(settings);
-  }
-
-private:
-  std::tuple<S...> settings{};
-};
 
 } // namespace engine::utils
 

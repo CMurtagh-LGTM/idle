@@ -1,10 +1,9 @@
 #pragma once
 
+#include "engine/settings_tuple.hpp"
 #include "engine/utils.hpp"
 
 #include <cute_color.h>
-#include <tuple>
-#include <type_traits>
 
 namespace engine::shape {
 
