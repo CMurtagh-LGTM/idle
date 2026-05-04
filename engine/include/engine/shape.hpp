@@ -4,6 +4,7 @@
 #include "internal/shape_manager.hpp"
 
 #include <gsl/gsl>
+#include <memory>
 
 namespace engine::shape {
 
@@ -33,3 +34,14 @@ private:
 };
 
 } // namespace engine::shape
+
+namespace engine {
+
+template <typename T>
+std::shared_ptr<shape::Box> make_shared(CF_Aabb aabb, shape::BoxSettings settings)
+  requires std::is_same_v<T, shape::Box>
+{
+  return std::make_shared<shape::Box>(aabb, settings);
+}
+
+} // namespace engine

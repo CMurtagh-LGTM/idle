@@ -16,4 +16,5 @@ template <typename T, typename... Ts> struct contains_type : std::bool_constant<
 template <typename T, typename... Ts> constexpr bool contains_type_v = contains_type<T, Ts...>::value;
 
 // NOLINTEND(readability-identifier-naming)
+
 } // namespace engine::utils

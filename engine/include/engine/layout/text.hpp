@@ -5,6 +5,7 @@
 #include "internal/text_manager.hpp"
 
 #include <gsl/gsl>
+#include <memory>
 #include <sigc++/functors/slot.h>
 #include <sigc++/signal.h>
 
@@ -37,3 +38,14 @@ private:
 static_assert(internal::ControlConcept<Text>);
 
 } // namespace engine::layout
+
+namespace engine {
+
+template <typename T>
+std::shared_ptr<layout::Text> make_shared(std::string_view new_text, layout::TextSettings settings)
+  requires std::is_same_v<T, layout::Text>
+{
+  return std::make_shared<layout::Text>(new_text, settings);
+}
+
+} // namespace engine

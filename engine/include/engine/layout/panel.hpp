@@ -3,6 +3,7 @@
 #include "engine/shape.hpp"
 #include "internal/layout/control_pointer.hpp"
 
+#include <memory>
 #include <sigc++/signal.h>
 
 namespace engine::layout {
@@ -38,3 +39,14 @@ private:
 static_assert(internal::ControlConcept<Panel>);
 
 } // namespace engine::layout
+
+namespace engine {
+
+template <typename T>
+std::shared_ptr<layout::Panel> make_shared(shape::BoxSettings settings)
+  requires std::is_same_v<T, layout::Panel>
+{
+  return std::make_shared<layout::Panel>(settings);
+}
+
+} // namespace engine
