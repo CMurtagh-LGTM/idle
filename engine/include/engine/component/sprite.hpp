@@ -5,6 +5,6 @@
 
 namespace engine::component {
 
-using SpritePtr = internal::ManagedPtr<internal::CuteSprite>;
+using SpritePtr = internal::ManagedPtr<internal::CuteSprite, false>;
 
-} // namespace engine
+} // namespace engine::component

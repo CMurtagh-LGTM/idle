@@ -34,4 +34,4 @@ static constexpr Fill NOFILL{!FILL};
 using BoxSettings = utils::SettingsTuple<Fill, Stroke, Chubbiness, Colour>;
 using CircleSettings = utils::SettingsTuple<Fill, Stroke, Colour>;
 
-} // namespace engine::shape
+} // namespace engine::component

@@ -12,4 +12,4 @@ using TextColour = CF_Color;
 /// Holds the settings required to know how to draw text
 using TextSettings = utils::SettingsTuple<TextColour>;
 
-} // namespace engine::layout
+} // namespace engine::component

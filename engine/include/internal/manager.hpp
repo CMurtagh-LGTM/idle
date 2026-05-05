@@ -11,11 +11,16 @@ namespace engine::internal {
 template <typename T>
 concept Drawable = requires(T object) { object.draw(); };
 
-template <int SIZE, Drawable... T> class Manager {
+template <int SIZE, typename... T> class Manager {
 public:
   static constexpr bool IS_VARIANT = (sizeof...(T) > 1);
   using value_type = std::conditional_t<IS_VARIANT, std::variant<T...>, T...[0]>;
 
+private:
+  using ArenaT = Arena<value_type, SIZE>;
+
+public:
+  using iterator = ArenaT::iterator;
   /// Creates an object
   template <typename U, typename... Args>
   gsl::owner<value_type*> create(Args... args)
@@ -32,19 +37,29 @@ public:
   }
   /// Deallocates the object
   void free(gsl::owner<value_type*> ptr) { arena.delete_ptr(ptr); }
-  /// Draws all managed objects
-  void draw() {
-    for (value_type& object : arena) {
-      if constexpr (IS_VARIANT) {
-        object.visit([](auto&& object) { object.draw(); });
-      } else {
-        object.draw();
-      }
-    }
-  }
+  iterator begin() { return arena.begin(); }
+  iterator end() { return arena.end(); }
 
 private:
-  Arena<value_type, SIZE> arena;
+  ArenaT arena;
 };
+
+template <typename Manager>
+void draw_contents(Manager& manager)
+  requires((!Manager::IS_VARIANT && Drawable<typename Manager::value_type>) ||
+           (Manager::IS_VARIANT
+#ifdef __cpp_template_parameters
+            && utils::has_all_variant<typename Manager::value_type, Drawable>
+#endif
+            ))
+{
+  for (typename Manager::value_type& object : manager) {
+    if constexpr (Manager::IS_VARIANT) {
+      object.visit([](auto&& object) { object.draw(); });
+    } else {
+      object.draw();
+    }
+  }
+}
 
 } // namespace engine::internal

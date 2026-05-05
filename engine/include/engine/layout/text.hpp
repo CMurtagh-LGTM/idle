@@ -1,7 +1,7 @@
 #pragma once
 
-#include "engine/component/text_settings.hpp"
 #include "engine/component/text.hpp"
+#include "engine/component/text_settings.hpp"
 #include "internal/layout/control_pointer.hpp"
 
 #include <gsl/gsl>

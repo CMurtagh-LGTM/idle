@@ -5,6 +5,6 @@
 
 namespace engine::component {
 
-using TextPtr = internal::ManagedPtr<internal::CuteText>;
+using TextPtr = internal::ManagedPtr<internal::CuteText, false>;
 
-} // namespace engine
+} // namespace engine::component

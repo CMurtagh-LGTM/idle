@@ -17,8 +17,11 @@ CuteSprite::CuteSprite(const char* path, Cute::v2 new_position) {
 }
 
 void CuteSprite::draw() {
+  Cute::draw_push();
+  // Cute::draw_transform(*transform);
   Cute::sprite_update(sprite);
   Cute::draw_sprite(sprite);
+  Cute::draw_pop();
 }
 
 int CuteSprite::get_width() const { return sprite.w; }

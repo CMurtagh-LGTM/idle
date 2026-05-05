@@ -3,7 +3,7 @@
 #include "internal/config.hpp"
 #include "internal/manager.hpp"
 
-#include <cute.h>
+#include <cute_sprite.h>
 
 namespace engine::internal {
 
@@ -24,6 +24,7 @@ public:
   void set_offset(Cute::v2 offset);
 
 private:
+  // component::TransformPtr transform;
   CF_Sprite sprite{};
 };
 

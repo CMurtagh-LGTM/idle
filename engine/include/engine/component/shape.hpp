@@ -5,6 +5,6 @@
 
 namespace engine::component {
 
-using BoxPtr = internal::ManagedPtr<internal::Box>;
+using BoxPtr = internal::ManagedPtr<internal::Box, false>;
 
-} // namespace engine::shape
+} // namespace engine::component
