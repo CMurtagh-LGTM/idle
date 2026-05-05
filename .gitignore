@@ -1,4 +1,5 @@
 build/
+build-analyse/
 .cache/
 
 imgui.ini
