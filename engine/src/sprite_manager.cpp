@@ -1,6 +1,6 @@
 #include "internal/sprite_manager.hpp"
 
-#include "engine/utils.hpp"
+#include "engine/utils/utils.hpp"
 
 #include <cute_draw.h>
 #include <cute_math.h>

@@ -1,6 +1,6 @@
 #include "internal/shape_manager.hpp"
 
-#include "engine/shape_settings.hpp"
+#include "engine/component/shape_settings.hpp"
 
 #include <cute_draw.h>
 #include <cute_math.h>
@@ -8,7 +8,7 @@
 
 namespace engine::internal {
 
-Box::Box(CF_Aabb new_aabb, shape::BoxSettings new_settings) : aabb(new_aabb), settings(std::move(new_settings)) {}
+Box::Box(CF_Aabb new_aabb, component::BoxSettings new_settings) : aabb(new_aabb), settings(std::move(new_settings)) {}
 
 void Box::set_aabb(CF_Aabb new_aabb) { aabb = new_aabb; }
 CF_Aabb Box::get_aabb() const { return aabb; }
@@ -23,23 +23,23 @@ void Box::set_extents(Cute::v2 extents) {
 Cute::v2 Box::get_extents() const { return Cute::extents(get_aabb()); }
 
 void Box::draw() {
-  Cute::draw_push_color(settings.get<shape::Colour>());
-  if (settings.get<shape::Fill>()) {
-    Cute::draw_quad_fill(aabb, settings.get<shape::Chubbiness>());
+  Cute::draw_push_color(settings.get<component::Colour>());
+  if (settings.get<component::Fill>()) {
+    Cute::draw_quad_fill(aabb, settings.get<component::Chubbiness>());
   } else {
-    Cute::draw_quad(aabb, settings.get<shape::Stroke>(), settings.get<shape::Chubbiness>());
+    Cute::draw_quad(aabb, settings.get<component::Stroke>(), settings.get<component::Chubbiness>());
   }
   Cute::draw_pop_color();
 }
 
-Circle::Circle(CF_Circle new_circle, shape::CircleSettings new_settings)
+Circle::Circle(CF_Circle new_circle, component::CircleSettings new_settings)
     : circle(new_circle), settings(std::move(new_settings)) {}
 void Circle::draw() {
-  Cute::draw_push_color(settings.get<shape::Colour>());
-  if (settings.get<shape::Fill>()) {
+  Cute::draw_push_color(settings.get<component::Colour>());
+  if (settings.get<component::Fill>()) {
     Cute::draw_circle_fill(circle);
   } else {
-    Cute::draw_circle(circle, settings.get<shape::Stroke>());
+    Cute::draw_circle(circle, settings.get<component::Stroke>());
   }
   Cute::draw_pop_color();
 }

@@ -34,16 +34,18 @@ target_sources(${PROJECT_NAME}
 target_sources(${PROJECT_NAME}
 	INTERFACE
 	include/engine/engine.hpp
-	include/engine/sprite.hpp
-	include/engine/shape.hpp
-	include/engine/text.hpp
-	include/engine/utils.hpp
-	include/engine/shape_settings.hpp
-	include/engine/settings_tuple.hpp
-	include/engine/type_traits.hpp
+
+	include/engine/utils/utils.hpp
+	include/engine/utils/settings_tuple.hpp
+	include/engine/utils/type_traits.hpp
+
+	include/engine/component/sprite.hpp
+	include/engine/component/shape.hpp
+	include/engine/component/text.hpp
+	include/engine/component/text_settings.hpp
+	include/engine/component/shape_settings.hpp
 
 	include/engine/layout/text.hpp
-	include/engine/layout/text_settings.hpp
 	include/engine/layout/image.hpp
 	include/engine/layout/vertical_box.hpp
 	include/engine/layout/panel.hpp

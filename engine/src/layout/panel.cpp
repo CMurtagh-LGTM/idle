@@ -1,7 +1,7 @@
 #include "engine/layout/panel.hpp"
 
 #include "engine/layout/controls.hpp"
-#include "engine/shape_settings.hpp"
+#include "engine/component/shape_settings.hpp"
 #include "internal/layout/control_pointer.hpp"
 
 #include <cute_math.h>
@@ -10,7 +10,7 @@
 
 namespace engine::layout {
 
-Panel::Panel(shape::BoxSettings settings) : box(Cute::make_aabb(V2(0, 0), 0, 0), settings) {}
+Panel::Panel(component::BoxSettings settings) : box(Cute::make_aabb(V2(0, 0), 0, 0), settings) {}
 
 // NOLINTBEGIN(misc-no-recursion)
 Vector2 Panel::get_min_size() const {

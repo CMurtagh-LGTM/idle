@@ -1,7 +1,7 @@
 #pragma once
 
-#include "engine/layout/text_settings.hpp"
-#include "engine/text.hpp"
+#include "engine/component/text_settings.hpp"
+#include "engine/component/text.hpp"
 #include "internal/layout/control_pointer.hpp"
 
 #include <gsl/gsl>
@@ -15,7 +15,7 @@ namespace engine::layout {
 class Text {
 public:
   /// Draws `new_text` at `new_position`
-  explicit Text(std::string_view new_text, TextSettings settings = TextSettings());
+  explicit Text(std::string_view new_text, component::TextSettings settings = component::TextSettings());
 
   /// Returns the size the text takes up on screen
   [[nodiscard]] Vector2 get_min_size() const;
@@ -27,7 +27,7 @@ public:
   void connect_needs_resize(sigc::slot<void()>&& signal);
 
 private:
-  TextPtr ptr;
+  component::TextPtr ptr;
   sigc::signal<void()> needs_resize;
 };
 static_assert(internal::ControlConcept<Text>);
@@ -37,7 +37,7 @@ static_assert(internal::ControlConcept<Text>);
 namespace engine {
 
 template <typename T>
-std::shared_ptr<layout::Text> make_shared(std::string_view new_text, layout::TextSettings settings)
+std::shared_ptr<layout::Text> make_shared(std::string_view new_text, component::TextSettings settings)
   requires std::is_same_v<T, layout::Text>
 {
   return std::make_shared<layout::Text>(new_text, settings);

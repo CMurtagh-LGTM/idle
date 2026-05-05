@@ -1,11 +1,11 @@
 #pragma once
 
-#include "engine/settings_tuple.hpp"
-#include "engine/utils.hpp"
+#include "engine/utils/settings_tuple.hpp"
+#include "engine/utils/utils.hpp"
 
 #include <cute_color.h>
 
-namespace engine::shape {
+namespace engine::component {
 
 /// Fill the drawn shape
 class Fill : public utils::integral_t<bool> {

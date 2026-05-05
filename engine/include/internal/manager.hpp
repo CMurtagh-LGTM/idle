@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/type_traits.hpp"
+#include "engine/utils/type_traits.hpp"
 #include "internal/arena.hpp"
 
 #include <gsl/gsl>

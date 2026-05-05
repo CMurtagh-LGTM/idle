@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/layout/text_settings.hpp"
+#include "engine/component/text_settings.hpp"
 #include "internal/config.hpp"
 #include "internal/manager.hpp"
 
@@ -14,7 +14,7 @@ class CuteText {
 public:
   CuteText() = default;
   /// Creates a text object that will draw `new_text` at `new_position`
-  CuteText(std::string_view new_text, Cute::v2 new_position, layout::TextSettings new_settings);
+  CuteText(std::string_view new_text, Cute::v2 new_position, component::TextSettings new_settings);
   void set_text(std::string_view new_text);
   void set_position(Cute::v2 new_position);
 
@@ -27,7 +27,7 @@ public:
 private:
   std::string text;
   Cute::v2 position{};
-  layout::TextSettings settings;
+  component::TextSettings settings;
 };
 
 /// Manages text to be drawn on screen

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/shape_settings.hpp"
+#include "engine/component/shape_settings.hpp"
 #include "internal/config.hpp"
 #include "internal/manager.hpp"
 
@@ -12,7 +12,7 @@ namespace engine::internal {
 class Box {
 public:
   /// Draws a box with aabb
-  explicit Box(CF_Aabb new_aabb, shape::BoxSettings new_settings);
+  explicit Box(CF_Aabb new_aabb, component::BoxSettings new_settings);
   /// Draws the box onto screen
   void draw();
 
@@ -27,18 +27,18 @@ public:
 
 private:
   CF_Aabb aabb;
-  shape::BoxSettings settings;
+  component::BoxSettings settings;
 };
 
 /// The information needed for cute to draw a circle
 class Circle {
 public:
-  explicit Circle(CF_Circle new_circle, shape::CircleSettings new_settings);
+  explicit Circle(CF_Circle new_circle, component::CircleSettings new_settings);
   void draw();
 
 private:
   CF_Circle circle;
-  shape::CircleSettings settings;
+  component::CircleSettings settings;
 };
 
 /// A class for storing information needed for cute to draw shapes

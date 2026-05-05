@@ -10,7 +10,7 @@ int main() {
   v_box->add_child(engine::make_shared<engine::layout::Text>("hi", {Cute::color_white()}));
   v_box->add_child(std::make_shared<engine::layout::Image>("content/person.png"));
   std::shared_ptr<engine::layout::Panel> panel =
-      engine::make_shared<engine::layout::Panel>({engine::shape::FILL, Cute::color_white()});
+      engine::make_shared<engine::layout::Panel>({engine::component::FILL, Cute::color_white()});
   panel->set_child(engine::make_shared<engine::layout::Text>("panel", {Cute::color_black()}));
   v_box->add_child(panel);
   v_box->add_child(engine::make_shared<engine::layout::Text>("bye", {Cute::color_white()}));

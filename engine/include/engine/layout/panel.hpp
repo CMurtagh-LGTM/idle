@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/shape.hpp"
+#include "engine/component/shape.hpp"
 #include "internal/layout/control_pointer.hpp"
 
 #include <memory>
@@ -11,7 +11,7 @@ namespace engine::layout {
 /// Draws a box under the child control
 class Panel {
 public:
-  explicit Panel(shape::BoxSettings settings = shape::BoxSettings());
+  explicit Panel(component::BoxSettings settings = component::BoxSettings());
   // Returns the size of all child elements
   [[nodiscard]] Vector2 get_min_size() const;
   /// Sets the top-left position
@@ -32,7 +32,7 @@ private:
   void compute_layout();
   Vector2 position{};
 
-  engine::shape::BoxPtr box;
+  engine::component::BoxPtr box;
   internal::ControlPointer control;
   sigc::signal<void()> needs_resize;
 };
@@ -43,7 +43,7 @@ static_assert(internal::ControlConcept<Panel>);
 namespace engine {
 
 template <typename T>
-std::shared_ptr<layout::Panel> make_shared(shape::BoxSettings settings)
+std::shared_ptr<layout::Panel> make_shared(component::BoxSettings settings)
   requires std::is_same_v<T, layout::Panel>
 {
   return std::make_shared<layout::Panel>(settings);

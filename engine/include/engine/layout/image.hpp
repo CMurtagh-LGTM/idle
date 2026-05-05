@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/sprite.hpp"
+#include "engine/component/sprite.hpp"
 #include "internal/layout/control_pointer.hpp"
 
 #include <gsl/gsl>
@@ -30,7 +30,7 @@ public:
   void connect_needs_resize(sigc::slot<void()>&& signal);
 
 private:
-  SpritePtr sprite;
+  component::SpritePtr sprite;
   sigc::signal<void()> needs_resize;
 };
 static_assert(internal::ControlConcept<Image>);

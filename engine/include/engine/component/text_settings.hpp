@@ -1,10 +1,10 @@
 #pragma once
 
-#include "engine/settings_tuple.hpp"
+#include "engine/utils/settings_tuple.hpp"
 
 #include <cute_color.h>
 
-namespace engine::layout {
+namespace engine::component {
 
 /// Sets the colour of text
 using TextColour = CF_Color;
