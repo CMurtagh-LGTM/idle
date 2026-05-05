@@ -59,10 +59,6 @@ void Context::start() {
 sigc::connection Context::connect_process(const sigc::slot<void(float)>& slot) { return process.connect(slot); }
 sigc::connection Context::connect_process(sigc::slot<void(float)>&& slot) { return process.connect(std::move(slot)); }
 
-SpriteManager& Context::get_sprite_manager() { return sprite_manager; }
-TextManager& Context::get_text_manager() { return text_manager; }
-ShapeManager& Context::get_shape_manager() { return shape_manager; }
-
 Context& ContextBroker::context() {
   static Context context{};
   return context;

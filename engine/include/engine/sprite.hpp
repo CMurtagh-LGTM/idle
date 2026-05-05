@@ -1,9 +1,7 @@
 #pragma once
 
 #include "internal/managed_ptr.hpp"
-
-#include <cute.h>
-#include <gsl/gsl>
+#include "internal/sprite_manager.hpp"
 
 namespace engine {
 

@@ -26,19 +26,16 @@ public:
   /// Register a callback that will be run at the start of the main loop
   sigc::connection connect_process(sigc::slot<void(float)>&& slot);
 
-  /// The sprite manager managers all the sprites drawn
-  SpriteManager& get_sprite_manager();
-  /// The text manager managers all the text drawn
-  TextManager& get_text_manager();
-  /// The shape manager managers all the shapes drawn
-  ShapeManager& get_shape_manager();
-
+  /// Get the manger that manges objects of type `T`
   template <typename T> auto& get_manager() {
     if constexpr (utils::contains_type_v<T, SpriteManager::value_type>) {
       return sprite_manager;
     }
     if constexpr (std::constructible_from<ShapeManager::value_type, T>) {
       return shape_manager;
+    }
+    if constexpr (utils::contains_type_v<T, TextManager::value_type>) {
+      return text_manager;
     }
   }
 

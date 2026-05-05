@@ -1,8 +1,8 @@
 #pragma once
 
 #include "engine/layout/text_settings.hpp"
+#include "engine/text.hpp"
 #include "internal/layout/control_pointer.hpp"
-#include "internal/text_manager.hpp"
 
 #include <gsl/gsl>
 #include <memory>
@@ -16,11 +16,6 @@ class Text {
 public:
   /// Draws `new_text` at `new_position`
   explicit Text(std::string_view new_text, TextSettings settings = TextSettings());
-  Text(const Text&) = delete;
-  Text(Text&&) = delete;
-  Text& operator=(const Text&) = delete;
-  Text& operator=(Text&&) = delete;
-  ~Text();
 
   /// Returns the size the text takes up on screen
   [[nodiscard]] Vector2 get_min_size() const;
@@ -32,7 +27,7 @@ public:
   void connect_needs_resize(sigc::slot<void()>&& signal);
 
 private:
-  gsl::owner<::engine::internal::CuteText*> ptr;
+  TextPtr ptr;
   sigc::signal<void()> needs_resize;
 };
 static_assert(internal::ControlConcept<Text>);

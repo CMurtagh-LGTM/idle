@@ -35,8 +35,9 @@ target_sources(${PROJECT_NAME}
 	INTERFACE
 	include/engine/engine.hpp
 	include/engine/sprite.hpp
-	include/engine/utils.hpp
 	include/engine/shape.hpp
+	include/engine/text.hpp
+	include/engine/utils.hpp
 	include/engine/shape_settings.hpp
 	include/engine/settings_tuple.hpp
 	include/engine/type_traits.hpp
