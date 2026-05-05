@@ -18,9 +18,7 @@ add_library(${PROJECT_NAME} STATIC)
 target_sources(${PROJECT_NAME}
 	PRIVATE
 	src/engine.cpp
-	src/sprite.cpp
 	src/utils.cpp
-	src/shape.cpp
 
 	src/layout/text.cpp
 	src/layout/image.cpp
@@ -54,6 +52,8 @@ target_sources(${PROJECT_NAME}
 	include/internal/arena.hpp
 	include/internal/config.hpp
 	include/internal/context.hpp
+	include/internal/manager.hpp
+	include/internal/managed_ptr.hpp
 	include/internal/sprite_manager.hpp
 	include/internal/text_manager.hpp
 	include/internal/shape_manager.hpp

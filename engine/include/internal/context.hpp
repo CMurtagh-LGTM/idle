@@ -27,11 +27,20 @@ public:
   sigc::connection connect_process(sigc::slot<void(float)>&& slot);
 
   /// The sprite manager managers all the sprites drawn
-  internal::SpriteManager& get_sprite_manager();
+  SpriteManager& get_sprite_manager();
   /// The text manager managers all the text drawn
-  internal::TextManager& get_text_manager();
+  TextManager& get_text_manager();
   /// The shape manager managers all the shapes drawn
-  internal::ShapeManager& get_shape_manager();
+  ShapeManager& get_shape_manager();
+
+  template <typename T> auto& get_manager() {
+    if constexpr (utils::contains_type_v<T, SpriteManager::value_type>) {
+      return sprite_manager;
+    }
+    if constexpr (std::constructible_from<ShapeManager::value_type, T>) {
+      return shape_manager;
+    }
+  }
 
 private:
   Context();

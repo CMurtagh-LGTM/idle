@@ -11,7 +11,7 @@ namespace engine::internal {
 class CuteSprite {
 public:
   /// Creates a sprite from given path
-  explicit CuteSprite(const char* path);
+  explicit CuteSprite(const char* path, Cute::v2 new_position = V2(0, 0));
   /// Draws the sprite
   void draw();
   /// The width of the sprite in pixels

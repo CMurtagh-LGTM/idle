@@ -27,8 +27,8 @@ void Panel::connect_needs_resize(sigc::slot<void()>&& signal) { needs_resize.con
 
 void Panel::compute_layout() {
   control.visit([this](auto&& ptr) { ptr->set_position(position); });
-  box.set_extents(control.visit([](auto&& ptr) { return ptr->get_min_size(); }));
-  box.set_offset(position + V2(1, -1) * box.get_extents() / 2);
+  box->set_extents(control.visit([](auto&& ptr) { return ptr->get_min_size(); }));
+  box->set_offset(position + V2(1, -1) * box->get_extents() / 2);
 }
 
 // NOLINTEND(misc-no-recursion)

@@ -3,6 +3,7 @@
 #include "engine/layout/text_settings.hpp"
 #include "internal/context.hpp"
 #include "internal/layout/control_pointer.hpp"
+#include "internal/text_manager.hpp"
 
 #include <cassert>
 #include <cute_math.h>
@@ -13,7 +14,8 @@
 namespace engine::layout {
 
 Text::Text(std::string_view new_text, TextSettings settings)
-    : ptr(::engine::internal::ContextBroker::context().get_text_manager().create(new_text, V2(0, 0), settings)) {}
+    : ptr(::engine::internal::ContextBroker::context().get_text_manager().create<::engine::internal::CuteText>(
+          new_text, V2(0, 0), settings)) {}
 Text::~Text() { ::engine::internal::ContextBroker::context().get_text_manager().free(ptr); }
 
 void Text::set_position(Vector2 position) { ptr->set_position(position); }

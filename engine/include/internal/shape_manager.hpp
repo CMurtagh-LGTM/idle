@@ -21,6 +21,10 @@ public:
   /// Get the aabb
   [[nodiscard]] CF_Aabb get_aabb() const;
 
+  void set_offset(Cute::v2 offset);
+  void set_extents(Cute::v2 extents);
+  [[nodiscard]] Cute::v2 get_extents() const;
+
 private:
   CF_Aabb aabb;
   shape::BoxSettings settings;

@@ -17,9 +17,17 @@ public:
   using value_type = std::conditional_t<IS_VARIANT, std::variant<T...>, T...[0]>;
 
   /// Creates an object
-  template <typename... Args> gsl::owner<value_type*> create(Args... args) requires (!IS_VARIANT) { return arena.new_ptr(args...); }
+  template <typename U, typename... Args>
+  gsl::owner<value_type*> create(Args... args)
+    requires(std::is_same_v<U, value_type>)
+  {
+    return arena.new_ptr(args...);
+  }
   /// Creates an object of type `U`
-  template <typename U, typename... Args> gsl::owner<value_type*> create(Args... args) requires (IS_VARIANT && utils::contains_type_v<U, T...>) {
+  template <typename U, typename... Args>
+  gsl::owner<value_type*> create(Args... args)
+    requires(IS_VARIANT && utils::contains_type_v<U, T...>)
+  {
     return arena.new_ptr(std::in_place_type<U>, args...);
   }
   /// Deallocates the object
@@ -27,7 +35,7 @@ public:
   /// Draws all managed objects
   void draw() {
     for (value_type& object : arena) {
-      if constexpr(IS_VARIANT) {
+      if constexpr (IS_VARIANT) {
         object.visit([](auto&& object) { object.draw(); });
       } else {
         object.draw();

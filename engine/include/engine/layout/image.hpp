@@ -30,7 +30,7 @@ public:
   void connect_needs_resize(sigc::slot<void()>&& signal);
 
 private:
-  Sprite sprite;
+  SpritePtr sprite;
   sigc::signal<void()> needs_resize;
 };
 static_assert(internal::ControlConcept<Image>);

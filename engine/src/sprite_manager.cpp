@@ -9,10 +9,11 @@
 
 namespace engine::internal {
 
-CuteSprite::CuteSprite(const char* path) {
+CuteSprite::CuteSprite(const char* path, Cute::v2 new_position) {
   CF_Result result;
   sprite = cf_make_easy_sprite_from_png(path, &result);
   utils::check_cf_result(result);
+  set_offset(new_position);
 }
 
 void CuteSprite::draw() {

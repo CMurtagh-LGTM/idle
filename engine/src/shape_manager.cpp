@@ -13,6 +13,15 @@ Box::Box(CF_Aabb new_aabb, shape::BoxSettings new_settings) : aabb(new_aabb), se
 void Box::set_aabb(CF_Aabb new_aabb) { aabb = new_aabb; }
 CF_Aabb Box::get_aabb() const { return aabb; }
 
+void Box::set_offset(Cute::v2 offset) {
+  set_aabb(Cute::make_aabb_center_half_extents(offset, Cute::half_extents(get_aabb())));
+}
+
+void Box::set_extents(Cute::v2 extents) {
+  set_aabb(Cute::make_aabb_center_half_extents(Cute::center(get_aabb()), extents / 2));
+}
+Cute::v2 Box::get_extents() const { return Cute::extents(get_aabb()); }
+
 void Box::draw() {
   Cute::draw_push_color(settings.get<shape::Colour>());
   if (settings.get<shape::Fill>()) {

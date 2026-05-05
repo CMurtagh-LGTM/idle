@@ -32,7 +32,7 @@ private:
   void compute_layout();
   Vector2 position{};
 
-  engine::shape::Box box;
+  engine::shape::BoxPtr box;
   internal::ControlPointer control;
   sigc::signal<void()> needs_resize;
 };
