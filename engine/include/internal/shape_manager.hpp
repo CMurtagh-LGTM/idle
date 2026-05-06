@@ -12,7 +12,7 @@ namespace engine::internal {
 class Box {
 public:
   /// Draws a box with aabb
-  explicit Box(CF_Aabb new_aabb, component::BoxSettings new_settings);
+  explicit Box(CF_Aabb new_aabb, component::BoxSettings new_settings = component::BoxSettings());
   /// Draws the box onto screen
   void draw();
 

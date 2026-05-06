@@ -33,7 +33,8 @@ public:
     if constexpr (std::is_same_v<T, SpriteManager::value_type>) {
       return std::get<SpriteManager>(managers);
     }
-    if constexpr (utils::contains_variant_type_v<T, ShapeManager::value_type>) {
+    if constexpr (std::is_same_v<T, ShapeManager::value_type> ||
+                  utils::contains_variant_type_v<T, ShapeManager::value_type>) {
       return std::get<ShapeManager>(managers);
     }
     if constexpr (std::is_same_v<T, TextManager::value_type>) {

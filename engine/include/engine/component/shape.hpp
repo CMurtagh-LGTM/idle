@@ -6,5 +6,6 @@
 namespace engine::component {
 
 using BoxPtr = internal::ManagedPtr<internal::Box>;
+using ShapePtr = internal::ManagedPtr<internal::ShapeManager::value_type>;
 
 } // namespace engine::component

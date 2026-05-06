@@ -19,6 +19,9 @@ int main() {
   v_box->add_child(panel2);
   engine::layout::Root root{v_box, V2(-100, 100)};
 
+  auto shape = engine::component::ShapePtr(std::in_place_type<engine::internal::Box>, Cute::make_aabb(V2(0, 0), 10, 10),
+                                           engine::component::BoxSettings{Cute::color_white()});
+
   engine::start();
 
   return 0;
