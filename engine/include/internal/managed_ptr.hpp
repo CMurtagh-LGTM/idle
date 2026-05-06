@@ -7,9 +7,10 @@
 namespace engine::internal {
 
 // TODO have IS_SHARED be an attribute rather than a template parameter
-template <typename T, bool IS_SHARED> class ManagedPtr {
+template <typename T> class ManagedPtr {
 private:
   using manager_t = std::remove_cvref_t<decltype(internal::ContextBroker::context().get_manager<T>())>;
+  using block_t = manager_t::Block;
 
 public:
   static constexpr bool IS_VARIANT = manager_t::IS_VARIANT;
@@ -18,47 +19,27 @@ public:
   template <typename... Args>
   explicit ManagedPtr(Args... args)
       : ptr(internal::ContextBroker::context().get_manager<T>().template create<T>(args...)) {
-    if constexpr (IS_SHARED) {
-      ptr->increment_count();
-    }
+    ++(ptr->accounting.ref_count);
   }
 
-  ManagedPtr(ManagedPtr&&) = delete;
-  ManagedPtr& operator=(ManagedPtr&&) = delete;
+  ManagedPtr(ManagedPtr&& other) noexcept : ptr(std::exchange(other.ptr, nullptr)) {}
+  ManagedPtr& operator=(ManagedPtr&& other) noexcept {
+    clean_ptr();
+    ptr = std::exchange(other.ptr, nullptr); // NOLINT(cppcoreguidelines-owning-memory)
+  }
 
-  ManagedPtr(const ManagedPtr&)
-    requires(!IS_SHARED)
-  = delete;
-  ManagedPtr& operator=(const ManagedPtr&)
-    requires(!IS_SHARED)
-  = delete;
-  ManagedPtr(const ManagedPtr& other)
-    requires IS_SHARED
-      : ptr(other.ptr) {
-    ptr->increment_count();
-  };
-  ManagedPtr& operator=(const ManagedPtr& other)
-    requires IS_SHARED
-  {
-    if (!ptr->decrement_count()) {
-      internal::ContextBroker::context().get_manager<T>().free(ptr);
+  ManagedPtr(const ManagedPtr& other) : ptr(other.ptr) {
+    if (ptr != nullptr) {
+      ++(ptr->accounting.ref_count);
     }
+  }
+  ManagedPtr& operator=(const ManagedPtr& other) {
+    clean_ptr();
     ptr = other.ptr;
     ++(ptr->ref_count);
   };
 
-  ~ManagedPtr()
-    requires(!IS_SHARED)
-  {
-    internal::ContextBroker::context().get_manager<T>().free(ptr);
-  }
-  ~ManagedPtr()
-    requires IS_SHARED
-  {
-    if (!ptr->decrement_count()) {
-      internal::ContextBroker::context().get_manager<T>().free(ptr);
-    }
-  }
+  ~ManagedPtr() { clean_ptr(); }
 
   T& operator*() { return *get(); }
   const T& operator*() const { return *get(); }
@@ -69,20 +50,30 @@ public:
 private:
   T* get() {
     if constexpr (IS_VARIANT) {
-      return &std::get<T>(*ptr);
+      return &std::get<T>(ptr->value);
     } else {
-      return ptr; // NOLINT(cppcoreguidelines-owning-memory)
+      return &ptr->value; // NOLINT(cppcoreguidelines-owning-memory)
     }
   }
   [[nodiscard]] const T* get() const {
     if constexpr (IS_VARIANT) {
-      return &std::get<T>(*ptr);
+      return &std::get<T>(ptr->value);
     } else {
-      return ptr; // NOLINT(cppcoreguidelines-owning-memory)
+      return &ptr->value; // NOLINT(cppcoreguidelines-owning-memory)
     }
   }
 
-  gsl::owner<value_type*> ptr;
+  void clean_ptr() {
+    if (ptr == nullptr) {
+      return;
+    }
+    --(ptr->accounting.ref_count);
+    if (ptr->accounting.ref_count <= 0) {
+      internal::ContextBroker::context().get_manager<T>().free(ptr);
+    }
+  }
+
+  gsl::owner<block_t*> ptr;
 };
 
 } // namespace engine::internal

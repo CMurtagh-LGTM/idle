@@ -42,6 +42,15 @@ public:
 };
 // NOLINTEND(readability-identifier-naming)
 
+template <typename T, template <typename, typename> typename C, size_t I, typename... Ts>
+auto get_if(std::tuple<Ts...> tuple) {
+  if constexpr (C<T, typename Ts...[I] ::value_type>::value) {
+    return std::get<I>(tuple);
+  } else {
+    return get_if<T, C, I + 1, Ts...>();
+  }
+}
+
 } // namespace engine::utils
 
 template <> struct std::formatter<Cute::v2> {

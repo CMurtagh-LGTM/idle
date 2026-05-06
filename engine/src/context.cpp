@@ -2,6 +2,9 @@
 
 #include "engine/utils/utils.hpp"
 #include "internal/manager.hpp"
+#include "internal/shape_manager.hpp"
+#include "internal/sprite_manager.hpp"
+#include "internal/text_manager.hpp"
 
 #include <cute_app.h>
 #include <cute_draw.h>
@@ -45,9 +48,9 @@ void Context::start() {
 
     Cute::app_update();
 
-    draw_contents(shape_manager);
-    draw_contents(text_manager);
-    draw_contents(sprite_manager);
+    draw_contents(std::get<ShapeManager>(managers));
+    draw_contents(std::get<TextManager>(managers));
+    draw_contents(std::get<SpriteManager>(managers));
 
     Cute::app_draw_onto_screen(true);
   }

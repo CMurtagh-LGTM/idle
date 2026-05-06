@@ -5,6 +5,6 @@
 
 namespace engine::component {
 
-using TransformPtr = internal::ManagedPtr<internal::Transform, true>;
+using TransformPtr = internal::ManagedPtr<internal::Transform>;
 
 }

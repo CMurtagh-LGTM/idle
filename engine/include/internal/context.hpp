@@ -28,18 +28,19 @@ public:
   sigc::connection connect_process(sigc::slot<void(float)>&& slot);
 
   /// Get the manger that manges objects of type `T`
-  template <typename T> auto& get_manager() {
+  template <typename T> auto& get_manager() { // NOLINT(readability-function-size)
+    // TODO use expansion from c++26 when it arrives in clang
     if constexpr (std::is_same_v<T, SpriteManager::value_type>) {
-      return sprite_manager;
+      return std::get<SpriteManager>(managers);
     }
     if constexpr (utils::contains_variant_type_v<T, ShapeManager::value_type>) {
-      return shape_manager;
+      return std::get<ShapeManager>(managers);
     }
     if constexpr (std::is_same_v<T, TextManager::value_type>) {
-      return text_manager;
+      return std::get<TextManager>(managers);
     }
     if constexpr (std::is_same_v<T, TransformManager::value_type>) {
-      return transform_manager;
+      return std::get<TransformManager>(managers);
     }
   }
 
@@ -49,10 +50,7 @@ private:
 
   sigc::signal<void(float)> process;
 
-  internal::SpriteManager sprite_manager;
-  internal::TextManager text_manager;
-  internal::ShapeManager shape_manager;
-  internal::TransformManager transform_manager;
+  std::tuple<SpriteManager, TextManager, ShapeManager, TransformManager> managers;
 };
 
 /// Holds a global `Context`
