@@ -41,7 +41,7 @@ public:
   constexpr integral_t() = default;
   explicit constexpr integral_t(value_type new_value) : value(new_value) {}
   constexpr operator value_type() const noexcept { return value; } // NOLINT(google-explicit-constructor)
-  constexpr value_type operator()() const noexcept { return value; }
+  [[nodiscard]] constexpr value_type get() const noexcept { return value; }
 };
 // NOLINTEND(readability-identifier-naming)
 

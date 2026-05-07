@@ -43,6 +43,7 @@ target_sources(${PROJECT_NAME}
 	include/engine/utils/utils.hpp
 	include/engine/utils/settings_tuple.hpp
 	include/engine/utils/type_traits.hpp
+	include/engine/utils/property.hpp
 
 	include/engine/component/sprite.hpp
 	include/engine/component/shape.hpp

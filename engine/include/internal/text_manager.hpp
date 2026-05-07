@@ -10,12 +10,13 @@
 namespace engine::internal {
 
 /// A class for storing information needed for cute to draw text
-class CuteText {
+class Text {
 public:
-  CuteText() = default;
+  Text() = default;
   /// Creates a text object that will draw `new_text` at `new_position`
-  CuteText(std::string_view new_text, Cute::v2 new_position, component::TextSettings new_settings);
+  Text(std::string_view new_text, Cute::v2 new_position, component::TextSettings new_settings);
   void set_text(std::string_view new_text);
+  [[nodiscard]] const std::string& get_text() const;
   void set_position(Cute::v2 new_position);
 
   /// Draws the text
@@ -31,6 +32,6 @@ private:
 };
 
 /// Manages text to be drawn on screen
-using TextManager = Manager<TEXT_COUNT, CuteText>;
+using TextManager = Manager<TEXT_COUNT, Text>;
 
 } // namespace engine::internal

@@ -6,24 +6,28 @@
 #include "engine/layout/root.hpp"
 #include "engine/layout/text.hpp"
 #include "engine/layout/vertical_box.hpp"
+#include "engine/utils/property.hpp"
 
 int main() {
-  std::shared_ptr<engine::layout::VerticalBox> v_box = std::make_shared<engine::layout::VerticalBox>();
+  auto v_box = std::make_shared<engine::layout::VerticalBox>();
 
   v_box->add_child(engine::make_shared<engine::layout::Text>("hi", {Cute::color_white()}));
 
   v_box->add_child(std::make_shared<engine::layout::Image>("content/person.png"));
 
-  std::shared_ptr<engine::layout::Panel> panel =
-      engine::make_shared<engine::layout::Panel>({engine::component::FILL, Cute::color_white()});
-  std::shared_ptr<engine::layout::Button> button = engine::make_shared<engine::layout::Button>();
+  auto panel = engine::make_shared<engine::layout::Panel>({engine::component::FILL, Cute::color_white()});
+  auto button = engine::make_shared<engine::layout::Button>();
   button->connect_on_clicked([](Cute::v2) { engine::utils::log("hi"); });
   button->set_child(engine::make_shared<engine::layout::Text>("button", {Cute::color_black()}));
   panel->set_child(button);
   v_box->add_child(panel);
 
-  v_box->add_child(engine::make_shared<engine::layout::Text>("bye", {Cute::color_white()}));
-  std::shared_ptr<engine::layout::Panel> panel2 = engine::make_shared<engine::layout::Panel>({Cute::color_white()});
+  auto bye_property = engine::utils::Property<std::string>("-");
+  auto bye = engine::make_shared<engine::layout::Text>(bye_property.get(), {Cute::color_white()});
+  bye_property.connect(sigc::mem_fun(*bye, &engine::layout::Text::set_text));
+  v_box->add_child(bye);
+  auto panel2 = engine::make_shared<engine::layout::Panel>({Cute::color_white()});
+  bye_property = "bye";
 
   panel2->set_child(std::make_shared<engine::layout::Image>("content/person.png"));
   v_box->add_child(panel2);

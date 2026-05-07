@@ -8,6 +8,7 @@
 #include <cute_math.h>
 #include <sigc++/connection.h>
 #include <sigc++/functors/slot.h>
+#include <string>
 #include <string_view>
 #include <utility>
 
@@ -22,5 +23,8 @@ sigc::connection Text::connect_needs_resize(const sigc::slot<void()>& signal) { 
 sigc::connection Text::connect_needs_resize(sigc::slot<void()>&& signal) {
   return needs_resize.connect(std::move(signal));
 }
+
+void Text::set_text(std::string_view new_text) { ptr->set_text(new_text); }
+const std::string& Text::get_text() const { return ptr->get_text(); }
 
 } // namespace engine::layout

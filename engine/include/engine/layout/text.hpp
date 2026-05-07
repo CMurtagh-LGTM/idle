@@ -26,6 +26,9 @@ public:
   /// Emits when the size has changed
   sigc::connection connect_needs_resize(sigc::slot<void()>&& signal);
 
+  void set_text(std::string_view new_text);
+  [[nodiscard]] const std::string& get_text() const;
+
 private:
   component::TextPtr ptr;
   sigc::signal<void()> needs_resize;
