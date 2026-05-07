@@ -6,6 +6,7 @@
 #include "internal/shape_manager.hpp"
 #include "internal/sprite_manager.hpp"
 #include "internal/text_manager.hpp"
+#include "internal/timer_manager.hpp"
 
 #include <cute_app.h>
 #include <cute_draw.h>
@@ -54,6 +55,8 @@ void Context::start() {
       auto screen_click = V2(Cute::mouse_x(), Cute::mouse_y());
       handle_clicks(std::get<ClickBoxManager>(managers), Cute::screen_to_world(screen_click));
     }
+
+    handle_ticks(std::get<TimerManager>(managers));
 
     process.emit(CF_DELTA_TIME);
 

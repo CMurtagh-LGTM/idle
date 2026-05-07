@@ -4,6 +4,7 @@
 #include "internal/shape_manager.hpp"
 #include "internal/sprite_manager.hpp"
 #include "internal/text_manager.hpp"
+#include "internal/timer_manager.hpp"
 #include "internal/transform_manager.hpp"
 
 #include <sigc++/signal.h>
@@ -47,6 +48,9 @@ public:
     if constexpr (std::is_same_v<T, ClickBoxManager::value_type>) {
       return std::get<ClickBoxManager>(managers);
     }
+    if constexpr (std::is_same_v<T, TimerManager::value_type>) {
+      return std::get<TimerManager>(managers);
+    }
   }
 
 private:
@@ -55,7 +59,7 @@ private:
 
   sigc::signal<void(float)> process;
 
-  std::tuple<SpriteManager, TextManager, ShapeManager, TransformManager, ClickBoxManager> managers;
+  std::tuple<SpriteManager, TextManager, ShapeManager, TransformManager, ClickBoxManager, TimerManager> managers;
 };
 
 /// Holds a global `Context`

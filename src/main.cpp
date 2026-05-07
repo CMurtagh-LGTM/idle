@@ -1,3 +1,4 @@
+#include "engine/component/timer.hpp"
 #include "engine/engine.hpp"
 #include "engine/layout/button.hpp"
 #include "engine/layout/image.hpp"
@@ -31,6 +32,9 @@ int main() {
 
   auto shape = engine::component::ShapePtr(engine::component::MAKE_BOX, Cute::make_aabb(V2(0, 0), 10, 10),
                                            engine::component::BoxSettings{Cute::color_white()});
+
+  auto timer = engine::component::TimerPtr(engine::component::Interval(1));
+  timer->connect([] { engine::utils::log("Tick"); });
 
   engine::start();
 

@@ -34,6 +34,7 @@ target_sources(${PROJECT_NAME}
 	src/shape_manager.cpp
 	src/transform_manager.cpp
 	src/clickbox_manager.cpp
+	src/timer_manager.cpp
 )
 target_sources(${PROJECT_NAME}
 	INTERFACE
@@ -48,6 +49,7 @@ target_sources(${PROJECT_NAME}
 	include/engine/component/text.hpp
 	include/engine/component/transform.hpp
 	include/engine/component/clickbox.hpp
+	include/engine/component/timer.hpp
 	include/engine/component/text_settings.hpp
 	include/engine/component/shape_settings.hpp
 
@@ -69,6 +71,7 @@ target_sources(${PROJECT_NAME}
 	include/internal/shape_manager.hpp
 	include/internal/transform_manager.hpp
 	include/internal/clickbox_manager.hpp
+	include/internal/timer_manager.hpp
 
 	include/internal/layout/control_pointer.hpp
 )
