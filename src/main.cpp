@@ -15,8 +15,8 @@ int main() {
 
   std::shared_ptr<engine::layout::Panel> panel =
       engine::make_shared<engine::layout::Panel>({engine::component::FILL, Cute::color_white()});
-  std::shared_ptr<engine::layout::Button> button =
-      engine::make_shared<engine::layout::Button>([](Cute::v2) { engine::utils::log("hi"); });
+  std::shared_ptr<engine::layout::Button> button = engine::make_shared<engine::layout::Button>();
+  button->connect_on_clicked([](Cute::v2) { engine::utils::log("hi"); });
   button->set_child(engine::make_shared<engine::layout::Text>("button", {Cute::color_black()}));
   panel->set_child(button);
   v_box->add_child(panel);

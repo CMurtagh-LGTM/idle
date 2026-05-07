@@ -10,8 +10,7 @@ namespace engine::layout {
 
 class Button {
 public:
-  explicit Button(const sigc::slot<void(Cute::v2)>& on_clicked);
-  explicit Button(sigc::slot<void(Cute::v2)>&& on_clicked);
+  Button();
   // Returns the size of all child elements
   [[nodiscard]] Vector2 get_min_size() const;
   /// Sets the top-left position
@@ -26,6 +25,9 @@ public:
     child->connect_needs_resize(sigc::mem_fun(*this, &Button::compute_layout));
     needs_resize.emit();
   }
+
+  sigc::connection connect_on_clicked(const sigc::slot<void(Cute::v2)>& on_clicked);
+  sigc::connection connect_on_clicked(sigc::slot<void(Cute::v2)>&& on_clicked);
 
 private:
   void compute_layout();
@@ -42,10 +44,10 @@ static_assert(internal::ControlConcept<Button>);
 namespace engine {
 
 template <typename T>
-std::shared_ptr<layout::Button> make_shared(sigc::slot<void(Cute::v2)>&& callback)
+std::shared_ptr<layout::Button> make_shared()
   requires std::is_same_v<T, layout::Button>
 {
-  return std::make_shared<layout::Button>(std::move(callback));
+  return std::make_shared<layout::Button>();
 }
 
 } // namespace engine

@@ -10,12 +10,7 @@
 
 namespace engine::layout {
 
-Button::Button(const sigc::slot<void(Cute::v2)>& on_clicked) : clickbox(Cute::make_aabb(V2(0, 0), 0, 0)) {
-  clickbox->connect(on_clicked);
-}
-Button::Button(sigc::slot<void(Cute::v2)>&& on_clicked) : clickbox(Cute::make_aabb(V2(0, 0), 0, 0)) {
-  clickbox->connect(std::move(on_clicked));
-}
+Button::Button() : clickbox(Cute::make_aabb(V2(0, 0), 0, 0)) {}
 
 // NOLINTBEGIN(misc-no-recursion)
 Vector2 Button::get_min_size() const {
@@ -36,6 +31,13 @@ void Button::compute_layout() {
   control.visit([this](auto&& ptr) { ptr->set_position(position); });
   clickbox->set_extents(control.visit([](auto&& ptr) { return ptr->get_min_size(); }));
   clickbox->set_offset(position + V2(1, -1) * clickbox->get_extents() / 2);
+}
+
+sigc::connection Button::connect_on_clicked(const sigc::slot<void(Cute::v2)>& on_clicked) {
+  return clickbox->connect(on_clicked);
+}
+sigc::connection Button::connect_on_clicked(sigc::slot<void(Cute::v2)>&& on_clicked) {
+  return clickbox->connect(std::move(on_clicked));
 }
 
 // NOLINTEND(misc-no-recursion)
