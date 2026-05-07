@@ -1,5 +1,6 @@
 #pragma once
 
+#include "internal/clickbox_manager.hpp"
 #include "internal/shape_manager.hpp"
 #include "internal/sprite_manager.hpp"
 #include "internal/text_manager.hpp"
@@ -43,6 +44,9 @@ public:
     if constexpr (std::is_same_v<T, TransformManager::value_type>) {
       return std::get<TransformManager>(managers);
     }
+    if constexpr (std::is_same_v<T, ClickBoxManager::value_type>) {
+      return std::get<ClickBoxManager>(managers);
+    }
   }
 
 private:
@@ -51,7 +55,7 @@ private:
 
   sigc::signal<void(float)> process;
 
-  std::tuple<SpriteManager, TextManager, ShapeManager, TransformManager> managers;
+  std::tuple<SpriteManager, TextManager, ShapeManager, TransformManager, ClickBoxManager> managers;
 };
 
 /// Holds a global `Context`

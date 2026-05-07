@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/component/shape.hpp"
+#include "engine/component/clickbox.hpp"
 #include "internal/layout/control_pointer.hpp"
 
 #include <memory>
@@ -8,10 +8,10 @@
 
 namespace engine::layout {
 
-/// Draws a box under the child control
-class Panel {
+class Button {
 public:
-  explicit Panel(component::BoxSettings settings = component::BoxSettings());
+  explicit Button(const sigc::slot<void(Cute::v2)>& on_clicked);
+  explicit Button(sigc::slot<void(Cute::v2)>&& on_clicked);
   // Returns the size of all child elements
   [[nodiscard]] Vector2 get_min_size() const;
   /// Sets the top-left position
@@ -21,10 +21,9 @@ public:
   /// Emits when the size has changed
   sigc::connection connect_needs_resize(sigc::slot<void()>&& signal);
 
-  /// Draws a box under the child, note this is part of the layout and should be the only parent of child
   template <internal::Control C> void set_child(std::shared_ptr<C> child) {
     control = child;
-    child->connect_needs_resize(sigc::mem_fun(*this, &Panel::compute_layout));
+    child->connect_needs_resize(sigc::mem_fun(*this, &Button::compute_layout));
     needs_resize.emit();
   }
 
@@ -32,21 +31,21 @@ private:
   void compute_layout();
   Vector2 position{};
 
-  engine::component::BoxPtr box;
+  engine::component::ClickBoxPtr clickbox;
   internal::ControlPointer control;
   sigc::signal<void()> needs_resize;
 };
-static_assert(internal::ControlConcept<Panel>);
+static_assert(internal::ControlConcept<Button>);
 
 } // namespace engine::layout
 
 namespace engine {
 
 template <typename T>
-std::shared_ptr<layout::Panel> make_shared(component::BoxSettings settings)
-  requires std::is_same_v<T, layout::Panel>
+std::shared_ptr<layout::Button> make_shared(sigc::slot<void(Cute::v2)>&& callback)
+  requires std::is_same_v<T, layout::Button>
 {
-  return std::make_shared<layout::Panel>(settings);
+  return std::make_shared<layout::Button>(std::move(callback));
 }
 
 } // namespace engine

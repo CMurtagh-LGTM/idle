@@ -25,6 +25,7 @@ target_sources(${PROJECT_NAME}
 	src/layout/image.cpp
 	src/layout/vertical_box.cpp
 	src/layout/panel.cpp
+	src/layout/button.cpp
 	src/layout/root.cpp
 
 	src/context.cpp
@@ -32,6 +33,7 @@ target_sources(${PROJECT_NAME}
 	src/text_manager.cpp
 	src/shape_manager.cpp
 	src/transform_manager.cpp
+	src/clickbox_manager.cpp
 )
 target_sources(${PROJECT_NAME}
 	INTERFACE
@@ -45,6 +47,7 @@ target_sources(${PROJECT_NAME}
 	include/engine/component/shape.hpp
 	include/engine/component/text.hpp
 	include/engine/component/transform.hpp
+	include/engine/component/clickbox.hpp
 	include/engine/component/text_settings.hpp
 	include/engine/component/shape_settings.hpp
 
@@ -52,6 +55,7 @@ target_sources(${PROJECT_NAME}
 	include/engine/layout/image.hpp
 	include/engine/layout/vertical_box.hpp
 	include/engine/layout/panel.hpp
+	include/engine/layout/button.hpp
 	include/engine/layout/controls.hpp
 	include/engine/layout/root.hpp
 	
@@ -64,6 +68,7 @@ target_sources(${PROJECT_NAME}
 	include/internal/text_manager.hpp
 	include/internal/shape_manager.hpp
 	include/internal/transform_manager.hpp
+	include/internal/clickbox_manager.hpp
 
 	include/internal/layout/control_pointer.hpp
 )

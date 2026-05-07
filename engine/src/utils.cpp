@@ -1,6 +1,7 @@
 #include "engine/utils/utils.hpp"
 
 #include <cassert>
+#include <cute_math.h>
 #include <cute_result.h>
 #include <print>
 
@@ -12,5 +13,7 @@ void check_cf_result(CF_Result result) {
     assert(0);
   }
 }
+
+bool point_to_aabb(Cute::v2 point, CF_Aabb aabb) { return (point > aabb.min && point < aabb.max); }
 
 } // namespace engine::utils

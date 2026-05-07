@@ -1,6 +1,7 @@
 #include "internal/context.hpp"
 
 #include "engine/utils/utils.hpp"
+#include "internal/clickbox_manager.hpp"
 #include "internal/manager.hpp"
 #include "internal/shape_manager.hpp"
 #include "internal/sprite_manager.hpp"
@@ -9,6 +10,8 @@
 #include <cute_app.h>
 #include <cute_draw.h>
 #include <cute_file_system.h>
+#include <cute_input.h>
+#include <cute_math.h>
 #include <cute_result.h>
 #include <cute_time.h>
 #include <sigc++/connection.h>
@@ -41,12 +44,18 @@ Context::Context() {
 
 Context::~Context() { Cute::destroy_app(); }
 
+// NOLINTNEXTLINE(readability-function-size)
 void Context::start() {
   Cute::push_font("ProggyClean");
   while (Cute::app_is_running()) {
-    process.emit(CF_DELTA_TIME);
-
     Cute::app_update();
+
+    if (Cute::mouse_just_pressed(CF_MOUSE_BUTTON_LEFT)) {
+      auto screen_click = V2(Cute::mouse_x(), Cute::mouse_y());
+      handle_clicks(std::get<ClickBoxManager>(managers), Cute::screen_to_world(screen_click));
+    }
+
+    process.emit(CF_DELTA_TIME);
 
     draw_contents(std::get<ShapeManager>(managers));
     draw_contents(std::get<TextManager>(managers));

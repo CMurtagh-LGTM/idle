@@ -4,6 +4,7 @@
 #include "internal/layout/control_pointer.hpp"
 
 #include <algorithm>
+#include <sigc++/connection.h>
 #include <sigc++/functors/slot.h>
 #include <utility>
 
@@ -25,8 +26,12 @@ void VerticalBox::set_position(Vector2 new_position) {
   compute_layout();
 }
 
-void VerticalBox::connect_needs_resize(const sigc::slot<void()>& signal) { needs_resize.connect(signal); }
-void VerticalBox::connect_needs_resize(sigc::slot<void()>&& signal) { needs_resize.connect(std::move(signal)); }
+sigc::connection VerticalBox::connect_needs_resize(const sigc::slot<void()>& signal) {
+  return needs_resize.connect(signal);
+}
+sigc::connection VerticalBox::connect_needs_resize(sigc::slot<void()>&& signal) {
+  return needs_resize.connect(std::move(signal));
+}
 
 void VerticalBox::compute_layout() {
   Vector2 child_position = position;

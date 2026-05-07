@@ -13,7 +13,8 @@ void check_cf_result(CF_Result result);
 
 /// Can be formatted to `char`
 template <typename T>
-concept formattable = std::formattable<T, char> || std::is_same_v<std::remove_cvref_t<T>, Cute::v2>;
+concept formattable = std::formattable<T, char> || std::is_same_v<std::remove_cvref_t<T>, Cute::v2> ||
+                      std::is_same_v<std::remove_cvref_t<T>, CF_Aabb>;
 
 /// Prints if `-DLOG` is passed
 template <formattable... Args>
@@ -22,6 +23,8 @@ void log([[maybe_unused]] std::format_string<Args...> format_string, [[maybe_unu
   std::println(format_string, std::forward<Args>(args)...);
 #endif
 }
+
+bool point_to_aabb(Cute::v2 point, CF_Aabb aabb);
 
 // NOLINTBEGIN(readability-identifier-naming)
 /// Stores a value of `T` that has to be explicitly constructed
@@ -50,5 +53,14 @@ template <> struct std::formatter<Cute::v2> {
   /// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
   auto format(const Cute::v2& vector2, std::format_context& ctx) const {
     return std::format_to(ctx.out(), "({}, {})", vector2.x, vector2.y);
+  }
+};
+
+template <> struct std::formatter<CF_Aabb> {
+  /// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
+  constexpr auto parse(std::format_parse_context& ctx) { return ctx.begin(); }
+  /// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
+  auto format(const CF_Aabb& aabb, std::format_context& ctx) const {
+    return std::format_to(ctx.out(), "(({}, {})({}, {}))", aabb.min.x, aabb.min.y, aabb.max.x, aabb.max.y);
   }
 };

@@ -3,6 +3,7 @@
 #include <concepts>
 #include <cute.h>
 #include <memory>
+#include <sigc++/connection.h>
 #include <sigc++/functors/slot.h>
 #include <variant>
 
@@ -11,6 +12,7 @@ class Text;
 class Image;
 class VerticalBox;
 class Panel;
+class Button;
 
 using Vector2 = Cute::v2;
 } // namespace engine::layout
@@ -22,14 +24,14 @@ template <typename C>
 concept ControlConcept = requires(const C& control) {
   { control.get_min_size() } -> std::same_as<Vector2>;
 } && requires(C control) {
+  { control.connect_needs_resize(std::declval<const sigc::slot<void()>&>) } -> std::same_as<sigc::connection>;
+  { control.connect_needs_resize(std::declval<sigc::slot<void()>&&>) } -> std::same_as<sigc::connection>;
   control.set_position(std::declval<Vector2>());
-  control.connect_needs_resize(std::declval<const sigc::slot<void()>&>);
-  control.connect_needs_resize(std::declval<sigc::slot<void()>&&>);
 };
 
 /// Points to a control object
-using ControlPointer =
-    std::variant<std::shared_ptr<Text>, std::shared_ptr<Image>, std::shared_ptr<VerticalBox>, std::shared_ptr<Panel>>;
+using ControlPointer = std::variant<std::shared_ptr<Text>, std::shared_ptr<Image>, std::shared_ptr<VerticalBox>,
+                                    std::shared_ptr<Panel>, std::shared_ptr<Button>>;
 
 /// Makes sure that `C` can be stored in a `ControlPointer`
 template <typename C>

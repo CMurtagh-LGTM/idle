@@ -5,6 +5,7 @@
 #include "internal/layout/control_pointer.hpp"
 
 #include <cute_math.h>
+#include <sigc++/connection.h>
 #include <sigc++/functors/slot.h>
 #include <utility>
 
@@ -22,8 +23,10 @@ void Panel::set_position(Vector2 new_position) {
   compute_layout();
 }
 
-void Panel::connect_needs_resize(const sigc::slot<void()>& signal) { needs_resize.connect(signal); }
-void Panel::connect_needs_resize(sigc::slot<void()>&& signal) { needs_resize.connect(std::move(signal)); }
+sigc::connection Panel::connect_needs_resize(const sigc::slot<void()>& signal) { return needs_resize.connect(signal); }
+sigc::connection Panel::connect_needs_resize(sigc::slot<void()>&& signal) {
+  return needs_resize.connect(std::move(signal));
+}
 
 void Panel::compute_layout() {
   control.visit([this](auto&& ptr) { ptr->set_position(position); });

@@ -6,6 +6,7 @@
 
 #include <cassert>
 #include <cute_math.h>
+#include <sigc++/connection.h>
 #include <sigc++/functors/slot.h>
 #include <string_view>
 #include <utility>
@@ -17,7 +18,9 @@ Text::Text(std::string_view new_text, component::TextSettings settings) : ptr(ne
 void Text::set_position(Vector2 position) { ptr->set_position(position); }
 Vector2 Text::get_min_size() const { return ptr->get_min_size(); }
 
-void Text::connect_needs_resize(const sigc::slot<void()>& signal) { needs_resize.connect(signal); }
-void Text::connect_needs_resize(sigc::slot<void()>&& signal) { needs_resize.connect(std::move(signal)); }
+sigc::connection Text::connect_needs_resize(const sigc::slot<void()>& signal) { return needs_resize.connect(signal); }
+sigc::connection Text::connect_needs_resize(sigc::slot<void()>&& signal) {
+  return needs_resize.connect(std::move(signal));
+}
 
 } // namespace engine::layout

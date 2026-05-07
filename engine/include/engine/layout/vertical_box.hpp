@@ -18,9 +18,9 @@ public:
   /// Sets the top-left position
   void set_position(Vector2 new_position);
   /// Emits when the size has changed
-  void connect_needs_resize(const sigc::slot<void()>& signal);
+  sigc::connection connect_needs_resize(const sigc::slot<void()>& signal);
   /// Emits when the size has changed
-  void connect_needs_resize(sigc::slot<void()>&& signal);
+  sigc::connection connect_needs_resize(sigc::slot<void()>&& signal);
 
   /// Adds a child to the bottom of the box
   template <internal::Control C> void add_child(std::shared_ptr<C> child) {
