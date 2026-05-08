@@ -38,9 +38,8 @@ public:
     return *this;
   }
 
-  constexpr explicit operator value_type() const noexcept { return value; }
-  constexpr value_type& get() noexcept { return value; }
-  constexpr const value_type& get() const noexcept { return value; }
+  constexpr operator value_type() noexcept { return value; } // NOLINT(google-explicit-constructor)
+  constexpr const value_type& get() noexcept { return value; }
 
   sigc::connection connect(const sigc::slot<slot_type>& on_changed) { return changed.connect(on_changed); }
   sigc::connection connect(sigc::slot<slot_type>&& on_changed) { return changed.connect(std::move(on_changed)); }

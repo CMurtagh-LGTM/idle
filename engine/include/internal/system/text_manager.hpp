@@ -1,9 +1,11 @@
 #pragma once
 
 #include "engine/component/text_settings.hpp"
+#include "engine/utils/utils.hpp"
 #include "internal/config.hpp"
 #include "internal/system/manager.hpp"
 
+#include <format>
 #include <cute_math.h>
 #include <string_view>
 
@@ -15,9 +17,16 @@ public:
   Text() = default;
   /// Creates a text object that will draw `new_text` at `new_position`
   Text(std::string_view new_text, Cute::v2 new_position, component::TextSettings new_settings);
+
   void set_text(std::string_view new_text);
   [[nodiscard]] const std::string& get_text() const;
   void set_position(Cute::v2 new_position);
+
+  template <utils::formattable T>
+  void set_value(T value)
+  {
+    set_text(std::format("{}", value));
+  }
 
   /// Draws the text
   void draw();

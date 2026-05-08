@@ -23,12 +23,13 @@ int main() {
   panel->set_child(button);
   v_box->add_child(panel);
 
-  auto bye_property = engine::utils::Property<std::string>("-");
-  auto bye = engine::make_shared<engine::layout::Text>(bye_property.get(), {Cute::color_white()});
-  bye_property.connect(sigc::mem_fun(*bye, &engine::layout::Text::set_text));
+  auto bye_property = engine::utils::Property<float>(0);
+  auto bye = engine::make_shared<engine::layout::Text>("", {Cute::color_white()});
+  bye_property.connect(sigc::mem_fun(*bye, &engine::layout::Text::set_value<float>));
   v_box->add_child(bye);
   auto panel2 = engine::make_shared<engine::layout::Panel>({Cute::color_white()});
-  bye_property = "bye";
+
+  engine::utils::tween(bye_property, 100.0F, 10);
 
   panel2->set_child(std::make_shared<engine::layout::Image>("content/person.png"));
   v_box->add_child(panel2);
