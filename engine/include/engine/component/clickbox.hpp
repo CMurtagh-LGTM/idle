@@ -1,7 +1,7 @@
 #pragma once
 
-#include "internal/clickbox_manager.hpp"
-#include "internal/managed_ptr.hpp"
+#include "internal/system/clickbox_manager.hpp"
+#include "internal/system/managed_ptr.hpp"
 
 namespace engine::component {
 

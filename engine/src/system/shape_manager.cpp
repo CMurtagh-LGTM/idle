@@ -1,4 +1,4 @@
-#include "internal/shape_manager.hpp"
+#include "internal/system/shape_manager.hpp"
 
 #include "engine/component/shape_settings.hpp"
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "internal/config.hpp"
-#include "internal/manager.hpp"
+#include "internal/system/manager.hpp"
 
 #include <cute_sprite.h>
 

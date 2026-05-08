@@ -2,7 +2,7 @@
 
 #include "engine/component/text_settings.hpp"
 #include "internal/layout/control_pointer.hpp"
-#include "internal/text_manager.hpp"
+#include "internal/system/text_manager.hpp"
 
 #include <cassert>
 #include <cute_math.h>

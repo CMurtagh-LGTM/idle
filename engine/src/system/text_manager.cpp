@@ -1,4 +1,4 @@
-#include "internal/text_manager.hpp"
+#include "internal/system/text_manager.hpp"
 
 #include "engine/component/text_settings.hpp"
 

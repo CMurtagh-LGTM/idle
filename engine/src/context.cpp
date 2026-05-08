@@ -1,12 +1,12 @@
 #include "internal/context.hpp"
 
 #include "engine/utils/utils.hpp"
-#include "internal/clickbox_manager.hpp"
-#include "internal/manager.hpp"
-#include "internal/shape_manager.hpp"
-#include "internal/sprite_manager.hpp"
-#include "internal/text_manager.hpp"
-#include "internal/timer_manager.hpp"
+#include "internal/system/clickbox_manager.hpp"
+#include "internal/system/manager.hpp"
+#include "internal/system/shape_manager.hpp"
+#include "internal/system/sprite_manager.hpp"
+#include "internal/system/text_manager.hpp"
+#include "internal/system/timer_manager.hpp"
 
 #include <cute_app.h>
 #include <cute_draw.h>

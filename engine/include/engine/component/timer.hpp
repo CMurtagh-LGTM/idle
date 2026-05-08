@@ -1,7 +1,7 @@
 #pragma once
 
-#include "internal/managed_ptr.hpp"
-#include "internal/timer_manager.hpp"
+#include "internal/system/managed_ptr.hpp"
+#include "internal/system/timer_manager.hpp"
 
 namespace engine::component {
 

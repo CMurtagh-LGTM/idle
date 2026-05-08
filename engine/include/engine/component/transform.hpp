@@ -1,7 +1,7 @@
 #pragma once
 
-#include "internal/managed_ptr.hpp"
-#include "internal/transform_manager.hpp"
+#include "internal/system/managed_ptr.hpp"
+#include "internal/system/transform_manager.hpp"
 
 namespace engine::component {
 

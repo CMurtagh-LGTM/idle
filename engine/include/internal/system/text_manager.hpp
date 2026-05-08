@@ -2,7 +2,7 @@
 
 #include "engine/component/text_settings.hpp"
 #include "internal/config.hpp"
-#include "internal/manager.hpp"
+#include "internal/system/manager.hpp"
 
 #include <cute_math.h>
 #include <string_view>

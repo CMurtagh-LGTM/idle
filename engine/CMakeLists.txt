@@ -28,13 +28,15 @@ target_sources(${PROJECT_NAME}
 	src/layout/button.cpp
 	src/layout/root.cpp
 
+	# Internal
 	src/context.cpp
-	src/sprite_manager.cpp
-	src/text_manager.cpp
-	src/shape_manager.cpp
-	src/transform_manager.cpp
-	src/clickbox_manager.cpp
-	src/timer_manager.cpp
+
+	src/system/sprite_manager.cpp
+	src/system/text_manager.cpp
+	src/system/shape_manager.cpp
+	src/system/transform_manager.cpp
+	src/system/clickbox_manager.cpp
+	src/system/timer_manager.cpp
 )
 target_sources(${PROJECT_NAME}
 	INTERFACE
@@ -65,14 +67,15 @@ target_sources(${PROJECT_NAME}
 	include/internal/arena.hpp
 	include/internal/config.hpp
 	include/internal/context.hpp
-	include/internal/manager.hpp
-	include/internal/managed_ptr.hpp
-	include/internal/sprite_manager.hpp
-	include/internal/text_manager.hpp
-	include/internal/shape_manager.hpp
-	include/internal/transform_manager.hpp
-	include/internal/clickbox_manager.hpp
-	include/internal/timer_manager.hpp
+
+	include/internal/system/manager.hpp
+	include/internal/system/managed_ptr.hpp
+	include/internal/system/sprite_manager.hpp
+	include/internal/system/text_manager.hpp
+	include/internal/system/shape_manager.hpp
+	include/internal/system/transform_manager.hpp
+	include/internal/system/clickbox_manager.hpp
+	include/internal/system/timer_manager.hpp
 
 	include/internal/layout/control_pointer.hpp
 )

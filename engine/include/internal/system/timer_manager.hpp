@@ -2,7 +2,7 @@
 
 #include "engine/utils/utils.hpp"
 #include "internal/config.hpp"
-#include "internal/manager.hpp"
+#include "internal/system/manager.hpp"
 
 #include <sigc++/signal.h>
 
