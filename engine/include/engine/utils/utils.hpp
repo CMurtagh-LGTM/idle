@@ -26,6 +26,8 @@ void log([[maybe_unused]] std::format_string<Args...> format_string, [[maybe_unu
 
 bool point_to_aabb(Cute::v2 point, CF_Aabb aabb);
 
+float now();
+
 // NOLINTBEGIN(readability-identifier-naming)
 /// Stores a value of `T` that has to be explicitly constructed
 template <typename T> class integral_t {

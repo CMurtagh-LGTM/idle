@@ -20,6 +20,7 @@ target_sources(${PROJECT_NAME}
 	PRIVATE
 	src/engine.cpp
 	src/utils.cpp
+	src/lerp.cpp
 
 	src/layout/text.cpp
 	src/layout/image.cpp
@@ -46,6 +47,8 @@ target_sources(${PROJECT_NAME}
 	include/engine/utils/settings_tuple.hpp
 	include/engine/utils/type_traits.hpp
 	include/engine/utils/property.hpp
+	include/engine/utils/tween.hpp
+	include/engine/utils/lerp.hpp
 
 	include/engine/component/sprite.hpp
 	include/engine/component/shape.hpp

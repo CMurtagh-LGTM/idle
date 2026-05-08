@@ -7,6 +7,7 @@
 #include "engine/layout/text.hpp"
 #include "engine/layout/vertical_box.hpp"
 #include "engine/utils/property.hpp"
+#include "engine/utils/tween.hpp"
 
 int main() {
   auto v_box = std::make_shared<engine::layout::VerticalBox>();
@@ -37,8 +38,11 @@ int main() {
   auto shape = engine::component::ShapePtr(engine::component::MAKE_BOX, Cute::make_aabb(V2(0, 0), 10, 10),
                                            engine::component::BoxSettings{Cute::color_white()});
 
+  int tweened_value = 0;
   auto timer = engine::component::TimerPtr(engine::component::Interval(1));
-  timer->connect([] { engine::utils::log("Tick"); });
+  timer->connect([&] { engine::utils::log("Tick: {}", tweened_value); });
+
+  engine::utils::tween(tweened_value, 100, 10);
 
   engine::start();
 
