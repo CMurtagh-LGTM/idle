@@ -29,7 +29,7 @@ int main() {
   v_box->add_child(bye);
   auto panel2 = engine::make_shared<engine::layout::Panel>({Cute::color_white()});
 
-  engine::utils::tween(bye_property, 100.0F, 10);
+  engine::utils::tween(&bye_property, 100.0F, 10);
 
   panel2->set_child(std::make_shared<engine::layout::Image>("content/person.png"));
   v_box->add_child(panel2);
@@ -43,7 +43,7 @@ int main() {
   auto timer = engine::component::TimerPtr(engine::component::Interval(1));
   timer->connect([&] { engine::utils::log("Tick: {}", tweened_value); });
 
-  engine::utils::tween(tweened_value, 100, 10);
+  engine::utils::tween(&tweened_value, 100, 10);
 
   engine::start();
 

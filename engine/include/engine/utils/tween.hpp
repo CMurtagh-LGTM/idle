@@ -2,7 +2,6 @@
 
 #include "engine/engine.hpp"
 #include "engine/utils/lerp.hpp"
-#include "engine/utils/property.hpp"
 #include "engine/utils/utils.hpp"
 
 #include <memory>
@@ -13,9 +12,7 @@
 
 namespace engine::utils {
 
-template <typename C, typename T>
-std::shared_ptr<sigc::connection> tween(C& value, T target, float duration)
-  requires(std::is_convertible_v<C, T>);
+template <typename C, typename T> std::shared_ptr<sigc::connection> tween(C* value, T target, float duration);
 
 /// Lerps between two values over a duration of time
 template <typename C, typename T>
@@ -39,8 +36,8 @@ public:
   }
 
 private:
-  Tween(container_type& value, value_type target, float new_duration, std::shared_ptr<sigc::connection> connection_ref)
-      : ptr(&value), start_value(value), end_value(target), start_time(now()), duration(new_duration),
+  Tween(container_type* value, value_type target, float new_duration, std::shared_ptr<sigc::connection> connection_ref)
+      : ptr(value), start_value(*value), end_value(target), start_time(now()), duration(new_duration),
         connection(std::move(connection_ref)) {}
 
   container_type* ptr;
@@ -51,14 +48,11 @@ private:
 
   std::shared_ptr<sigc::connection> connection;
 
-  friend std::shared_ptr<sigc::connection> tween<container_type, value_type>(container_type& value, value_type target,
+  friend std::shared_ptr<sigc::connection> tween<container_type, value_type>(container_type* value, value_type target,
                                                                              float duration);
 };
 
-template <typename C, typename T>
-std::shared_ptr<sigc::connection> tween(C& value, T target, float duration)
-  requires(std::is_convertible_v<C, T>)
-{
+template <typename C, typename T> std::shared_ptr<sigc::connection> tween(C* value, T target, float duration) {
   auto connection = std::make_shared<sigc::connection>();
   *connection = connect_process(Tween(value, target, duration, connection));
   return connection;

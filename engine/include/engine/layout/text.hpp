@@ -28,11 +28,7 @@ public:
 
   void set_text(std::string_view new_text);
   [[nodiscard]] const std::string& get_text() const;
-  template <typename T>
-  void set_value(T value)
-  {
-    set_text(std::format("{}", value));
-  }
+  template <typename T> void set_value(T value) { set_text(std::format("{}", value)); }
 
 private:
   component::TextPtr ptr;

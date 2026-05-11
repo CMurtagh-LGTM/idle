@@ -5,8 +5,8 @@
 #include "internal/config.hpp"
 #include "internal/system/manager.hpp"
 
-#include <format>
 #include <cute_math.h>
+#include <format>
 #include <string_view>
 
 namespace engine::internal {
@@ -22,11 +22,7 @@ public:
   [[nodiscard]] const std::string& get_text() const;
   void set_position(Cute::v2 new_position);
 
-  template <utils::formattable T>
-  void set_value(T value)
-  {
-    set_text(std::format("{}", value));
-  }
+  template <utils::formattable T> void set_value(T value) { set_text(std::format("{}", value)); }
 
   /// Draws the text
   void draw();
