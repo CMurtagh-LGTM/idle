@@ -1,6 +1,6 @@
 #pragma once
 
-#include "internal/layout/control_pointer.hpp"
+#include "engine/layout/control_pointer.hpp"
 
 #include <sigc++/functors/slot.h>
 #include <sigc++/signal.h>
@@ -23,16 +23,12 @@ public:
   sigc::connection connect_needs_resize(sigc::slot<void()>&& signal);
 
   /// Adds a child to the bottom of the box
-  template <internal::Control C> void add_child(std::shared_ptr<C> child) {
-    controls.push_back(child);
-    child->connect_needs_resize(sigc::mem_fun(*this, &VerticalBox::compute_layout));
-    needs_resize.emit();
-  }
+  void add_child(ControlPointer child);
 
 private:
   void compute_layout();
 
-  std::vector<internal::ControlPointer> controls;
+  std::vector<ControlPointer> controls;
   Vector2 position{};
   sigc::signal<void()> needs_resize;
 };

@@ -2,7 +2,7 @@
 
 #include "engine/component/text.hpp"
 #include "engine/component/text_settings.hpp"
-#include "internal/layout/control_pointer.hpp"
+#include "engine/layout/control_pointer.hpp"
 
 #include <gsl/gsl>
 #include <memory>

@@ -1,8 +1,9 @@
 #include "engine/layout/panel.hpp"
 
 #include "engine/component/shape_settings.hpp"
+#include "engine/layout/control_pointer.hpp"
 #include "engine/layout/controls.hpp"
-#include "internal/layout/control_pointer.hpp"
+#include <sigc++/functors/mem_fun.h>
 
 #include <cute_math.h>
 #include <sigc++/connection.h>
@@ -26,6 +27,12 @@ void Panel::set_position(Vector2 new_position) {
 sigc::connection Panel::connect_needs_resize(const sigc::slot<void()>& signal) { return needs_resize.connect(signal); }
 sigc::connection Panel::connect_needs_resize(sigc::slot<void()>&& signal) {
   return needs_resize.connect(std::move(signal));
+}
+
+void Panel::set_child(ControlPointer child) {
+  control = child;
+  child.visit([this](auto&& ptr) { ptr->connect_needs_resize(sigc::mem_fun(*this, &Panel::compute_layout)); });
+  needs_resize.emit();
 }
 
 void Panel::compute_layout() {

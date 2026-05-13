@@ -1,6 +1,6 @@
 #include "engine/layout/image.hpp"
 
-#include "internal/layout/control_pointer.hpp"
+#include "engine/layout/control_pointer.hpp"
 
 #include <cassert>
 #include <cute_math.h>

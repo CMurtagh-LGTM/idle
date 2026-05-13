@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine/component/shape.hpp"
-#include "internal/layout/control_pointer.hpp"
+#include "engine/layout/control_pointer.hpp"
 
 #include <memory>
 #include <sigc++/signal.h>
@@ -22,18 +22,14 @@ public:
   sigc::connection connect_needs_resize(sigc::slot<void()>&& signal);
 
   /// Draws a box under the child, note this is part of the layout and should be the only parent of child
-  template <internal::Control C> void set_child(std::shared_ptr<C> child) {
-    control = child;
-    child->connect_needs_resize(sigc::mem_fun(*this, &Panel::compute_layout));
-    needs_resize.emit();
-  }
+  void set_child(ControlPointer child);
 
 private:
   void compute_layout();
   Vector2 position{};
 
   engine::component::BoxPtr box;
-  internal::ControlPointer control;
+  ControlPointer control;
   sigc::signal<void()> needs_resize;
 };
 static_assert(internal::ControlConcept<Panel>);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "internal/layout/control_pointer.hpp"
+#include "engine/layout/control_pointer.hpp"
 
 #include <sigc++/signal.h>
 
@@ -10,16 +10,15 @@ namespace engine::layout {
 class Root {
 public:
   /// Automatically lays out the control when needed at the given position
-  template <internal::Control C>
-  Root(std::shared_ptr<C> control, Vector2 new_position) : control_ptr(control), position(new_position) {
-    control->connect_needs_resize(sigc::mem_fun(*this, &Root::compute_layout));
-    compute_layout();
-  }
+  explicit Root(ControlPointer&& control, Vector2 new_position = V2(0, 0));
+
+  /// Sets the top-left position
+  void set_position(Vector2 new_position);
 
 private:
   void compute_layout();
 
-  internal::ControlPointer control_ptr;
+  ControlPointer control_ptr;
   Vector2 position{};
 };
 

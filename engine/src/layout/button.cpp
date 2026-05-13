@@ -1,12 +1,13 @@
 #include "engine/layout/button.hpp"
 
 #include "engine/layout/controls.hpp"
-#include "internal/layout/control_pointer.hpp"
+#include "engine/layout/control_pointer.hpp"
 
 #include <cute_math.h>
 #include <sigc++/connection.h>
 #include <sigc++/functors/slot.h>
 #include <utility>
+#include <sigc++/functors/mem_fun.h>
 
 namespace engine::layout {
 
@@ -25,6 +26,12 @@ void Button::set_position(Vector2 new_position) {
 sigc::connection Button::connect_needs_resize(const sigc::slot<void()>& signal) { return needs_resize.connect(signal); }
 sigc::connection Button::connect_needs_resize(sigc::slot<void()>&& signal) {
   return needs_resize.connect(std::move(signal));
+}
+
+void Button::set_child(ControlPointer child) {
+  control = child;
+  child.visit([this](auto&& ptr) { ptr->connect_needs_resize(sigc::mem_fun(*this, &Button::compute_layout)); });
+  needs_resize.emit();
 }
 
 void Button::compute_layout() {

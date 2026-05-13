@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine/component/clickbox.hpp"
-#include "internal/layout/control_pointer.hpp"
+#include "engine/layout/control_pointer.hpp"
 
 #include <memory>
 #include <sigc++/signal.h>
@@ -20,11 +20,7 @@ public:
   /// Emits when the size has changed
   sigc::connection connect_needs_resize(sigc::slot<void()>&& signal);
 
-  template <internal::Control C> void set_child(std::shared_ptr<C> child) {
-    control = child;
-    child->connect_needs_resize(sigc::mem_fun(*this, &Button::compute_layout));
-    needs_resize.emit();
-  }
+  void set_child(ControlPointer child);
 
   sigc::connection connect_on_clicked(const sigc::slot<void(Cute::v2)>& on_clicked);
   sigc::connection connect_on_clicked(sigc::slot<void(Cute::v2)>&& on_clicked);
@@ -34,7 +30,7 @@ private:
   Vector2 position{};
 
   engine::component::ClickBoxPtr clickbox;
-  internal::ControlPointer control;
+  ControlPointer control;
   sigc::signal<void()> needs_resize;
 };
 static_assert(internal::ControlConcept<Button>);

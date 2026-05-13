@@ -1,19 +1,20 @@
 #include "engine/layout/vertical_box.hpp"
 
 #include "engine/layout/controls.hpp"
-#include "internal/layout/control_pointer.hpp"
+#include "engine/layout/control_pointer.hpp"
 
 #include <algorithm>
 #include <sigc++/connection.h>
 #include <sigc++/functors/slot.h>
 #include <utility>
+#include <sigc++/functors/mem_fun.h>
 
 namespace engine::layout {
 
 // NOLINTBEGIN(misc-no-recursion)
 Vector2 VerticalBox::get_min_size() const {
   auto size = Vector2(0, 0);
-  for (internal::ControlPointer control : controls) {
+  for (ControlPointer control : controls) {
     auto control_size = control.visit([](auto&& ptr) { return ptr->get_min_size(); });
     size.y += control_size.y;
     size.x = std::max(size.x, control_size.x);
@@ -33,9 +34,15 @@ sigc::connection VerticalBox::connect_needs_resize(sigc::slot<void()>&& signal) 
   return needs_resize.connect(std::move(signal));
 }
 
+void VerticalBox::add_child(ControlPointer child) {
+  controls.push_back(child);
+  child.visit([this](auto&& ptr) { ptr->connect_needs_resize(sigc::mem_fun(*this, &VerticalBox::compute_layout)); });
+  needs_resize.emit();
+}
+
 void VerticalBox::compute_layout() {
   Vector2 child_position = position;
-  for (internal::ControlPointer control : controls) {
+  for (ControlPointer control : controls) {
     control.visit([&](auto&& ptr) {
       ptr->set_position(child_position);
       // -y is up

@@ -59,6 +59,7 @@ target_sources(${PROJECT_NAME}
 	include/engine/component/text_settings.hpp
 	include/engine/component/shape_settings.hpp
 
+	include/engine/layout/control_pointer.hpp
 	include/engine/layout/text.hpp
 	include/engine/layout/image.hpp
 	include/engine/layout/vertical_box.hpp
@@ -80,7 +81,6 @@ target_sources(${PROJECT_NAME}
 	include/internal/system/clickbox_manager.hpp
 	include/internal/system/timer_manager.hpp
 
-	include/internal/layout/control_pointer.hpp
 )
 target_compile_definitions(${PROJECT_NAME} PUBLIC LOG)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)

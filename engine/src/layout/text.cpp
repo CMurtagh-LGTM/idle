@@ -1,7 +1,7 @@
 #include "engine/layout/text.hpp"
 
 #include "engine/component/text_settings.hpp"
-#include "internal/layout/control_pointer.hpp"
+#include "engine/layout/control_pointer.hpp"
 #include "internal/system/text_manager.hpp"
 
 #include <cassert>
