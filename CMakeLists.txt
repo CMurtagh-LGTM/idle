@@ -22,8 +22,8 @@ FetchContent_MakeAvailable(engine)
 add_executable(
     ${PROJECT_NAME}
 )
-target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
-# target_sources(${PROJECT_NAME} INTERFACE include/window.hpp)
+target_sources(${PROJECT_NAME} PRIVATE src/main.cpp src/unit.cpp src/model.cpp)
+target_sources(${PROJECT_NAME} INTERFACE include/unit.hpp include/model.hpp)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
@@ -32,7 +32,7 @@ target_link_libraries(${PROJECT_NAME} engine)
 
 find_program(CLANG_FORMAT_EXE clang-format)
 get_target_property(format_sources ${PROJECT_NAME} SOURCES)
-# get_target_property(format_interface_sources ${PROJECT_NAME} INTERFACE_SOURCES)
+get_target_property(format_interface_sources ${PROJECT_NAME} INTERFACE_SOURCES)
 get_target_property(format_engine_sources engine SOURCES)
 get_target_property(format_engine_interface_sources engine INTERFACE_SOURCES)
 list(TRANSFORM format_engine_sources PREPEND engine/)

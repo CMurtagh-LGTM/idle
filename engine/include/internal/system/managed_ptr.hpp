@@ -6,7 +6,6 @@
 
 namespace engine::internal {
 
-// TODO have IS_SHARED be an attribute rather than a template parameter
 template <typename T> class ManagedPtr {
 private:
   using manager_t = std::remove_cvref_t<decltype(internal::ContextBroker::context().get_manager<T>())>;

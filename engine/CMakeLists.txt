@@ -108,7 +108,7 @@ FetchContent_Declare(
 
 FetchContent_Declare(GSL
     GIT_REPOSITORY "https://github.com/microsoft/GSL"
-    GIT_TAG "v4.2.1"
+    GIT_TAG "v4.2.2"
     GIT_SHALLOW ON
 )
 
@@ -119,7 +119,7 @@ find_program(MESON meson REQUIRED)
 ExternalProject_Add(
 	sigc++
 	GIT_REPOSITORY https://github.com/libsigcplusplus/libsigcplusplus.git
-	GIT_TAG "3.8.0"
+	GIT_TAG "3.8.1"
 	GIT_SHALLOW ON
 
 	SOURCE_DIR     ${CMAKE_BINARY_DIR}/_deps/sigc++-src

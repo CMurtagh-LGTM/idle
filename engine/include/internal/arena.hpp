@@ -115,7 +115,7 @@ private:
   gsl::owner<T*> arena = nullptr;
   std::array<bool, SIZE> used_elements{};
   difference_type next_free = 0;
-  difference_type last_element = 0;
+  difference_type last_element = -1;
 };
 
 } // namespace engine::internal
