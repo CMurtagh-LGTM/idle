@@ -14,6 +14,9 @@ public:
 
   /// Sets the top-left position
   void set_position(Vector2 new_position);
+  [[nodiscard]] Vector2 get_position() const;
+
+  ControlPointer get_control();
 
 private:
   void compute_layout();

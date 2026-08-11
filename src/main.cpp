@@ -18,7 +18,7 @@ int main() {
 
   auto panel = engine::make_shared<engine::layout::Panel>({engine::component::FILL, Cute::color_white()});
   auto button = engine::make_shared<engine::layout::Button>();
-  button->connect_on_clicked([](Cute::v2) { engine::utils::log("hi"); });
+  button->connect_on_click([](engine::layout::Button::Event) { engine::utils::log("hi"); });
   button->set_child(engine::make_shared<engine::layout::Text>("button", {Cute::color_black()}));
   panel->set_child(button);
   v_box->add_child(panel);

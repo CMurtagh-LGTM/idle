@@ -10,6 +10,8 @@ namespace engine::layout {
 
 class Button {
 public:
+  using Event = ::engine::internal::MouseEvent;
+
   Button();
   // Returns the size of all child elements
   [[nodiscard]] Vector2 get_min_size() const;
@@ -22,11 +24,14 @@ public:
 
   void set_child(ControlPointer child);
 
-  sigc::connection connect_on_clicked(const sigc::slot<void(Cute::v2)>& on_clicked);
-  sigc::connection connect_on_clicked(sigc::slot<void(Cute::v2)>&& on_clicked);
+  sigc::connection connect_on_mouse(const sigc::slot<void(Event)>& on_mouse);
+  sigc::connection connect_on_mouse(sigc::slot<void(Event)>&& on_mouse);
+  sigc::connection connect_on_click(const sigc::slot<void(Event)>& on_click);
+  sigc::connection connect_on_click(sigc::slot<void(Event)>&& on_click);
 
 private:
   void compute_layout();
+
   Vector2 position{};
 
   engine::component::ClickBoxPtr clickbox;

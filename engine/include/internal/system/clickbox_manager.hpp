@@ -8,6 +8,11 @@
 
 namespace engine::internal {
 
+struct MouseEvent {
+  Cute::v2 position;
+  bool just_pressed;
+};
+
 class ClickBox {
 public:
   explicit ClickBox(CF_Aabb new_aabb);
@@ -19,17 +24,17 @@ public:
   void set_extents(Cute::v2 extents);
   [[nodiscard]] Cute::v2 get_extents() const;
 
-  void handle_click(Cute::v2 click_coords);
-  sigc::connection connect(const sigc::slot<void(Cute::v2)>& on_clicked);
-  sigc::connection connect(sigc::slot<void(Cute::v2)>&& on_clicked);
+  void handle_mouse(Cute::v2 click_coords);
+  sigc::connection connect_on_mouse(const sigc::slot<void(MouseEvent)>& on_clicked);
+  sigc::connection connect_on_mouse(sigc::slot<void(MouseEvent)>&& on_clicked);
 
 private:
   CF_Aabb aabb;
-  sigc::signal<void(Cute::v2)> clicked;
+  sigc::signal<void(MouseEvent)> mouse_signal;
 };
 
 using ClickBoxManager = Manager<CLICK_BOX_COUNT, ClickBox>;
 
-void handle_clicks(ClickBoxManager& clickbox_manager, Cute::v2 click_coords);
+void handle_mouse(ClickBoxManager& clickbox_manager, Cute::v2 click_coords);
 
 } // namespace engine::internal

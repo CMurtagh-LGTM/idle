@@ -51,9 +51,9 @@ void Context::start() {
   while (Cute::app_is_running()) {
     Cute::app_update();
 
-    if (Cute::mouse_just_pressed(CF_MOUSE_BUTTON_LEFT)) {
+    if (cf_mouse_down(CF_MOUSE_BUTTON_LEFT)) {
       auto screen_click = V2(Cute::mouse_x(), Cute::mouse_y());
-      handle_clicks(std::get<ClickBoxManager>(managers), Cute::screen_to_world(screen_click));
+      handle_mouse(std::get<ClickBoxManager>(managers), Cute::screen_to_world(screen_click));
     }
 
     handle_ticks(std::get<TimerManager>(managers));

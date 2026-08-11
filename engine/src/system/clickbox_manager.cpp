@@ -2,6 +2,7 @@
 
 #include "engine/utils/utils.hpp"
 
+#include <cute_input.h>
 #include <cute_math.h>
 #include <sigc++/connection.h>
 #include <sigc++/functors/slot.h>
@@ -23,20 +24,22 @@ void ClickBox::set_extents(Cute::v2 extents) {
 }
 Cute::v2 ClickBox::get_extents() const { return Cute::extents(get_aabb()); }
 
-void ClickBox::handle_click(Cute::v2 click_coords) {
+void ClickBox::handle_mouse(Cute::v2 click_coords) {
   if (utils::point_to_aabb(click_coords, aabb)) {
-    clicked.emit(click_coords);
+    mouse_signal.emit({.position = click_coords, .just_pressed = Cute::mouse_just_pressed(CF_MOUSE_BUTTON_LEFT)});
   }
 }
 
-sigc::connection ClickBox::connect(const sigc::slot<void(Cute::v2)>& on_clicked) { return clicked.connect(on_clicked); }
-sigc::connection ClickBox::connect(sigc::slot<void(Cute::v2)>&& on_clicked) {
-  return clicked.connect(std::move(on_clicked));
+sigc::connection ClickBox::connect_on_mouse(const sigc::slot<void(MouseEvent)>& on_clicked) {
+  return mouse_signal.connect(on_clicked);
+}
+sigc::connection ClickBox::connect_on_mouse(sigc::slot<void(MouseEvent)>&& on_clicked) {
+  return mouse_signal.connect(std::move(on_clicked));
 }
 
-void handle_clicks(ClickBoxManager& clickbox_manager, Cute::v2 click_coords) {
+void handle_mouse(ClickBoxManager& clickbox_manager, Cute::v2 click_coords) {
   for (ClickBox& clickbox : clickbox_manager) {
-    clickbox.handle_click(click_coords);
+    clickbox.handle_mouse(click_coords);
   }
 }
 

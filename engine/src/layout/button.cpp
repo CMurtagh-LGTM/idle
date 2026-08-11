@@ -1,13 +1,13 @@
 #include "engine/layout/button.hpp"
 
-#include "engine/layout/controls.hpp"
 #include "engine/layout/control_pointer.hpp"
+#include "engine/layout/controls.hpp"
 
 #include <cute_math.h>
 #include <sigc++/connection.h>
+#include <sigc++/functors/mem_fun.h>
 #include <sigc++/functors/slot.h>
 #include <utility>
-#include <sigc++/functors/mem_fun.h>
 
 namespace engine::layout {
 
@@ -40,11 +40,25 @@ void Button::compute_layout() {
   clickbox->set_offset(position + V2(1, -1) * clickbox->get_extents() / 2);
 }
 
-sigc::connection Button::connect_on_clicked(const sigc::slot<void(Cute::v2)>& on_clicked) {
-  return clickbox->connect(on_clicked);
+sigc::connection Button::connect_on_mouse(const sigc::slot<void(Event)>& on_mouse) {
+  return clickbox->connect_on_mouse(on_mouse);
 }
-sigc::connection Button::connect_on_clicked(sigc::slot<void(Cute::v2)>&& on_clicked) {
-  return clickbox->connect(std::move(on_clicked));
+sigc::connection Button::connect_on_mouse(sigc::slot<void(Event)>&& on_mouse) {
+  return clickbox->connect_on_mouse(std::move(on_mouse));
+}
+sigc::connection Button::connect_on_click(const sigc::slot<void(Event)>& on_click) {
+  return clickbox->connect_on_mouse([on_click](Event event) {
+    if (event.just_pressed) {
+      on_click(event);
+    }
+  });
+}
+sigc::connection Button::connect_on_click(sigc::slot<void(Event)>&& on_click) {
+  return clickbox->connect_on_mouse([on_click = std::move(on_click)](Event event) {
+    if (event.just_pressed) {
+      on_click(event);
+    }
+  });
 }
 
 // NOLINTEND(misc-no-recursion)
