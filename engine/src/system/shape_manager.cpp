@@ -44,4 +44,25 @@ void Circle::draw() {
   Cute::draw_pop_color();
 }
 
+Triangle::Triangle(Cute::v2 point0, Cute::v2 point1, Cute::v2 point2, component::TriangleSettings new_settings)
+    : points(point0, point1, point2), settings(std::move(new_settings)) {}
+Triangle::Triangle(TrianglePoints new_triangle, component::TriangleSettings new_settings)
+    : points(new_triangle), settings(std::move(new_settings)) {}
+void Triangle::draw() {
+  Cute::draw_push_color(settings.get<component::Colour>());
+  if (settings.get<component::Fill>()) {
+    Cute::draw_tri_fill(points.p0, points.p1, points.p2, settings.get<component::Chubbiness>());
+  } else {
+    Cute::draw_tri(points.p0, points.p1, points.p2, settings.get<component::Stroke>(),
+                   settings.get<component::Chubbiness>());
+  }
+  Cute::draw_pop_color();
+}
+
+[[nodiscard]] TrianglePoints Triangle::get_points() const { return points; }
+void Triangle::set_points(Cute::v2 point0, Cute::v2 point1, Cute::v2 point2) {
+  points = TrianglePoints(point0, point1, point2);
+}
+void Triangle::set_points(TrianglePoints new_points) { points = new_points; }
+
 } // namespace engine::internal

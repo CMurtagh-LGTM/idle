@@ -21,6 +21,8 @@ public:
     ++(ptr->accounting.ref_count);
   }
 
+  ManagedPtr() : ptr(nullptr) {};
+
   ManagedPtr(ManagedPtr&& other) noexcept : ptr(std::exchange(other.ptr, nullptr)) {}
   ManagedPtr& operator=(ManagedPtr&& other) noexcept {
     clean_ptr();

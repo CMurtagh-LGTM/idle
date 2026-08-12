@@ -1,6 +1,7 @@
 #pragma once
 
 #include "model.hpp"
+#include "engine/component/shape.hpp"
 #include <vector>
 
 namespace game {
@@ -16,6 +17,7 @@ private:
     size_t file_count;
 
     std::vector<Model> models;
+    engine::component::TrianglePtr mover;
 };
 
 } // namespace game

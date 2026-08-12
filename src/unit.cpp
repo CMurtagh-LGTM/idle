@@ -1,11 +1,17 @@
 #include "unit.hpp"
 
+#include "engine/component/shape.hpp"
+
+namespace {
+constexpr engine::component::TrianglePoints TRIANGLE_POINTS(V2(-20, 5), V2(0, 25), V2(20, 5));
+}
+
 namespace game {
 
-Unit::Unit() : file_count(5) {
+Unit::Unit() : file_count(5), mover(TRIANGLE_POINTS, engine::component::TriangleSettings{Cute::color_white()}) {
   models.reserve(15);
   for (int i = 0; i < 15; ++i) {
-    models.emplace_back(10, 10, V2(0, 0));
+    models.emplace_back(20, 20, V2(0, 0));
   }
   place_models();
 }
@@ -26,6 +32,9 @@ void Unit::place_models() {
     models[model].set_position(V2((column * model_extents.x) - (row_width / 2) + (model_extents.x / 2),
                                   (-(row * model_extents.y) + (total_height / 2) - (model_extents.y / 2))));
   }
+
+  mover->set_points(TRIANGLE_POINTS.p0 + V2(0, total_height / 2), TRIANGLE_POINTS.p1 + V2(0, total_height / 2),
+                    TRIANGLE_POINTS.p2 + V2(0, total_height / 2));
 }
 
 } // namespace game
