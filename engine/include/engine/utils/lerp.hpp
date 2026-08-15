@@ -1,8 +1,9 @@
 #pragma once
 
+#include <cmath>
 #include <cute_color.h>
 #include <cute_math.h>
-#include <stdfloat> // NOLINT(misc-include-cleaner)
+// TODO #include <stdfloat>
 #include <type_traits>
 
 namespace engine::utils {

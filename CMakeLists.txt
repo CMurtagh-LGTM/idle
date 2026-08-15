@@ -30,6 +30,13 @@ target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURR
 
 target_link_libraries(${PROJECT_NAME} engine)
 
+if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+    set(EMSCRIPTEN TRUE)
+    set(CMAKE_EXECUTABLE_SUFFIX ".html")
+    target_compile_options(${PROJECT_NAME} PUBLIC -O1 -fno-rtti -fno-exceptions -g)
+    target_link_options(${PROJECT_NAME} PRIVATE -o idle.html --preload-file ${CMAKE_SOURCE_DIR}/content --emrun -O1 -gsource-map)
+endif()
+
 find_program(CLANG_FORMAT_EXE clang-format)
 get_target_property(format_sources ${PROJECT_NAME} SOURCES)
 get_target_property(format_interface_sources ${PROJECT_NAME} INTERFACE_SOURCES)

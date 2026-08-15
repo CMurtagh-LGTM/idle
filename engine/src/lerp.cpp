@@ -1,8 +1,9 @@
 #include "engine/utils/lerp.hpp"
 
+#include <cmath>
 #include <cute_color.h>
 #include <cute_math.h>
-#include <stdfloat> // NOLINT(misc-include-cleaner)
+// TODO #include <stdfloat>
 
 namespace engine::utils {
 

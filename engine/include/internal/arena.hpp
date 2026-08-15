@@ -3,6 +3,10 @@
 #include <cassert>
 #include <cstdlib>
 #include <gsl/gsl>
+#include <iterator>
+#ifdef _LIBCPP_VERSION
+#include "internal/const_iterator.h" // See https://github.com/llvm/llvm-project/pull/99915
+#endif
 
 // NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 // NOLINTBEGIN(cppcoreguidelines-pro-bounds-constant-array-index)

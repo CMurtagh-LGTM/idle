@@ -9,10 +9,6 @@ project(
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-if(CMAKE_SYSTEM_NAME MATCHES "Emscripten")
-	set(EMSCRIPTEN TRUE)
-endif()
-
 option(LINT_ENGINE "Run clang-tidy" OFF)
 
 add_library(${PROJECT_NAME} STATIC)
@@ -114,6 +110,21 @@ FetchContent_Declare(GSL
 
 FetchContent_MakeAvailable(cute GSL)
 
+set(SIG_CONFIGURE_ARGS
+    --default-library=static
+    -Dbuildtype=release
+    --prefix <INSTALL_DIR>
+    -Dmaintainer-mode=false
+    -Dbuild-deprecated-api=false
+    -Dbuild-examples=false
+    -Dbuild-tests=false
+)
+
+if(EMSCRIPTEN)
+    list(APPEND SIG_CONFIGURE_ARGS
+         --cross-file "${CMAKE_CURRENT_SOURCE_DIR}/wasm32-emscripten.txt")
+endif()
+
 include(ExternalProject)
 find_program(MESON meson REQUIRED)
 ExternalProject_Add(
@@ -130,14 +141,7 @@ ExternalProject_Add(
 
 	UPDATE_COMMAND ""
 
-	CONFIGURE_COMMAND ${MESON} setup <BINARY_DIR> <SOURCE_DIR> 
-                      --default-library=static 
-                      -Dbuildtype=release 
-                      --prefix <INSTALL_DIR>
-		      -Dmaintainer-mode=false
-		      -Dbuild-deprecated-api=false
-		      -Dbuild-examples=false
-		      -Dbuild-tests=false
+	CONFIGURE_COMMAND ${MESON} setup <BINARY_DIR> <SOURCE_DIR> ${SIG_CONFIGURE_ARGS}
 	CONFIGURE_HANDLED_BY_BUILD ON
 
 	BUILD_COMMAND ${MESON} compile -C <BINARY_DIR>

@@ -53,6 +53,9 @@ public:
     }
   }
 
+  /// Don't call this, this is for emscripten to call
+  void update();
+
 private:
   Context();
   friend internal::ContextBroker;
